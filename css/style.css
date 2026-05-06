@@ -169,10 +169,15 @@ body {
     gap: 10px;
 }
 
-.cliente-card .autocomplete-wrapper {
+/* Contenedor del input (div sin clase) */
+.cliente-card .section-body > div {
     flex: 1;
-    position: relative;
-    z-index: 1; 
+}
+
+/* Input de cliente a ancho completo */
+.cliente-card .section-body > div input {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* ===== SECTION CARD ===== */
