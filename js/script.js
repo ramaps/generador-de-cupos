@@ -321,7 +321,7 @@ async function descargar() {
 
     try {
         const canvas = await html2canvas(clon, {
-            scale: 1.2,          // 👈 más comprimido, suficiente para una hoja
+            scale: 2,
             useCORS: true,
             backgroundColor: '#f0f2f5',
             logging: false
