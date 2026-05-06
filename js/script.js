@@ -294,13 +294,24 @@ async function descargar() {
     const clonInputs = Array.from(clon.querySelectorAll('input, select'));
 
     originalInputs.forEach((input, i) => {
-        const clone = clonInputs[i];
-        if (!clone) return;
-        const span = document.createElement('span');
-        span.className = 'pdf-input-value';
-        span.textContent = input.value || '\u00A0';
-        clone.replaceWith(span);
-    });
+    const clone = clonInputs[i];
+    if (!clone) return;
+    const span = document.createElement('span');
+    span.className = 'pdf-input-value';
+
+    let text = input.value || '\u00A0';
+
+    // Si es un campo de fecha con valor, formatear a dd/mm/aaaa
+    if (input.type === 'date' && input.value) {
+        const parts = input.value.split('-'); // ["aaaa", "mm", "dd"]
+        if (parts.length === 3) {
+            text = parts[2] + '/' + parts[1] + '/' + parts[0]; // "dd/mm/aaaa"
+        }
+    }
+
+    span.textContent = text;
+    clone.replaceWith(span);
+});
 
     clon.style.cssText = 'position:fixed;top:0;left:0;width:794px;background:#f0f2f5;z-index:-1;opacity:1;';
     clon.classList.add('pdf-render-mode');
