@@ -361,7 +361,8 @@ select:focus {
     font-size: 12px;
     border-bottom: 1px solid #f0f0f0;
     text-transform: uppercase;
-    color: #333;
+    color: #333 !important;
+    background-color: #fff !important;
 }
 
 .autocomplete-list li:hover,
