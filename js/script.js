@@ -297,35 +297,30 @@ async function descargar() {
     await new Promise(r => setTimeout(r, 300));
 
     try {
-        // 👉 Reducir la escala de 2 a 1.5 (o 1.2 si aún no entra)
         const canvas = await html2canvas(clon, {
-            scale: 1.5,          // antes 2, ahora más comprimido
+            scale: 1.2,          // 👈 más comprimido, suficiente para una hoja
             useCORS: true,
             backgroundColor: '#f0f2f5',
             logging: false
         });
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.92); // calidad JPEG ajustable
+        const imgData = canvas.toDataURL('image/jpeg', 0.9);
         const pdf = new jsPDF('p', 'mm', 'a4');
 
-        const pageWidth = pdf.internal.pageSize.getWidth();  // 210mm
-        const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
-        const margin = 5; // márgenes pequeños
+        const pageWidth = pdf.internal.pageSize.getWidth();   // 210 mm
+        const pageHeight = pdf.internal.pageSize.getHeight(); // 297 mm
+        const margin = 3; // márgenes reducidos
 
         const imgWidth = pageWidth - margin * 2;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Si la imagen es más alta que la página, forzamos a que ocupe toda la altura disponible
-        let finalHeight = imgHeight;
-        if (imgHeight > pageHeight - margin * 2) {
-            finalHeight = pageHeight - margin * 2;
-            // Recalcular el ancho para mantener la proporción
-            // (pero preferimos mantener el ancho completo y dejar que se escale)
-        }
+        // Forzar a que la imagen no supere la altura de una página
+        const maxImgHeight = pageHeight - margin * 2;
+        const finalHeight = Math.min(imgHeight, maxImgHeight);
 
         pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, finalHeight);
 
-        // 👉 Eliminamos el bucle while, solo una página
+        // Sin bucle: solo una página
         pdf.save('Cupo_AgroquimicosNorte.pdf');
     } catch (error) {
         console.error(error);
