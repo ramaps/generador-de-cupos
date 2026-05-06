@@ -34,20 +34,27 @@ body {
     align-items: center;
     transition: opacity 0.6s ease;
 }
+#loading-overlay:not([style*="display: none"]) ~ .btn-descargar {
+    display: none;
+}
 
 .loading-content {
     width: 100%;
     max-width: 500px;
     padding: 0 20px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .truck-container {
-    display: flex;
-    align-items: center;
+    width: 100%;
+    max-width: 400px; /* Debe coincidir con el ancho de la barra */
     height: 90px;
     margin-bottom: 8px;
     position: relative;
+    /* Eliminamos overflow: hidden para que el camión pueda asomar al inicio */
 }
 
 .truck-svg {
@@ -55,9 +62,15 @@ body {
     width: 130px;
     max-width: 38vw;
     position: absolute;
-    left: 0;
+    /* El camión se mueve basado en el borde derecho (la trompa) */
+     left: 0;
     transform: scaleX(-1);
+    transform: translateX(-100%); /* Lo posiciona justo detrás del punto de carga */
     transition: left 0.1s linear;
+}
+
+.truck-svg line {
+    display: none;
 }
 
 .speed-line {
@@ -72,10 +85,10 @@ body {
 
 .progress-bar-bg {
     width: 100%;
+    max-width: 400px;
     height: 10px;
     background: rgba(255,255,255,0.2);
     border-radius: 20px;
-    overflow: hidden;
     margin-bottom: 12px;
 }
 
