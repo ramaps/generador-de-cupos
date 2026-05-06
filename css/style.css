@@ -54,15 +54,17 @@ body {
     height: 90px;
     margin-bottom: 8px;
     position: relative;
+    overflow: visible;              /* permite que el camión se vea completo al final */
 }
 
 .truck-svg {
     display: block;
-    width: 130px;                   /* tamaño del camión, ajustable */
+    width: 130px;                   /* tamaño reducido, ajustable a gusto */
     max-width: 38vw;
     position: absolute;
-    left: 0;
-    transform: scaleX(-1) translateX(-100%);  /* voltea a la derecha y empieza fuera */
+    left: 0;                        /* el JavaScript actualizará este left */
+    bottom: 0;                      /* alineado a la barra */
+    transform: scaleX(-1);         /* SOLO voltea hacia la derecha */
     transition: left 0.1s linear;
 }
 
@@ -78,7 +80,7 @@ body {
 
 .progress-bar-bg {
     width: 100%;
-    max-width: 500px;               /* mismo ancho que truck-container */
+    max-width: 500px;               /* mismo ancho que el contenedor */
     height: 10px;
     background: rgba(255,255,255,0.2);
     border-radius: 20px;
