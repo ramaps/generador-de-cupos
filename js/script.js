@@ -76,7 +76,6 @@ function initAllAutocompletes() {
         const esDestino = input.id === 'input-destino' || input.id === 'input-destino-entrega';
         let wrapper = input.closest('.autocomplete-wrapper') || input.parentNode;
 
-        // Asegurar posición relativa en el contenedor
         if (getComputedStyle(wrapper).position === 'static') {
             wrapper.style.position = 'relative';
         }
@@ -113,15 +112,23 @@ function setupAutocomplete(input, dataSource, esDestino, wrapper) {
 
         matches.forEach(item => {
             const li = document.createElement('li');
+
             if (esDestino) {
-    let extra = '';
-    if (item.localidad) {
-        extra = `<br><small>${item.localidad} – ${item.direccion || ''}</small>`;
-    } else if (item.sufijo) {
-        extra = `<br><small>${item.sufijo} – ${item.direccion || ''}</small>`;
-    }
-    li.innerHTML = `<strong>${item.nombre}</strong>${extra}${item.ruca ? `<br><small>RUCA: ${item.ruca}</small>` : ''}`;
-}
+                let extra = '';
+                if (item.localidad) {
+                    extra = `<br><small>${item.localidad} – ${item.direccion || ''}</small>`;
+                } else if (item.sufijo) {
+                    extra = `<br><small>${item.sufijo} – ${item.direccion || ''}</small>`;
+                }
+                li.style.color = '#333';
+                li.style.backgroundColor = '#fff';
+                li.innerHTML = `<strong>${item.nombre}</strong>${extra}${item.ruca ? `<br><small>RUCA: ${item.ruca}</small>` : ''}`;
+            } else {
+                li.textContent = item.nombre;
+                li.style.color = '#333';
+                li.style.backgroundColor = '#fff';
+            }
+
             li.addEventListener('mousedown', e => {
                 e.preventDefault();
                 selectItem(item);
@@ -129,7 +136,7 @@ function setupAutocomplete(input, dataSource, esDestino, wrapper) {
             list.appendChild(li);
         });
 
-        wrapper.classList.add('active-dropdown');   // ✅ Se activa sin importar el tipo de contenedor
+        wrapper.classList.add('active-dropdown');
 
         if (list.children.length > 0) {
             currentFocus = 0;
@@ -139,14 +146,15 @@ function setupAutocomplete(input, dataSource, esDestino, wrapper) {
 
     function selectItem(item) {
         let textoVisible = item.nombre;
-if (esDestino) {
-    if (item.localidad) {
-        textoVisible = `${item.nombre} (${item.sufijo})`;
-    } else if (item.sufijo) {
-        textoVisible = `${item.nombre} (${item.localidad})`;
-    }
-}
-input.value = textoVisible;
+        if (esDestino) {
+            if (item.sufijo) {
+                textoVisible = `${item.nombre} (${item.sufijo})`;
+            } else if (item.localidad) {
+                textoVisible = `${item.nombre} (${item.localidad})`;
+            }
+        }
+        input.value = textoVisible;
+
         const row = input.closest('.interviniente-row');
         if (row) {
             const cuitInput = row.querySelector('.cuit-input');
@@ -156,6 +164,7 @@ input.value = textoVisible;
                 cuitInput.value = fmt;
             }
         }
+
         if (esDestino) {
             document.getElementById('input-ruca').value = item.ruca || '';
             document.getElementById('input-direccion').value = item.direccion || '';
@@ -164,9 +173,10 @@ input.value = textoVisible;
             const otro = input.id === 'input-destino' ? document.getElementById('input-destino-entrega') : document.getElementById('input-destino');
             if (otro) otro.value = input.value;
         }
+
         list.innerHTML = '';
         currentFocus = -1;
-        wrapper.classList.remove('active-dropdown');   // ✅ se limpia al seleccionar
+        wrapper.classList.remove('active-dropdown');
     }
 
     input.addEventListener('input', function() {
@@ -197,7 +207,6 @@ input.value = textoVisible;
 }
 
 initAllAutocompletes();
-
 /* ==================== CUPOS DINÁMICOS ==================== */
 let cupoCounter = 1;
 const cuposContainer = document.getElementById('cupos-container');
