@@ -50,22 +50,21 @@ body {
 
 .truck-container {
     width: 100%;
-    max-width: 500px;               /* igual que la barra de progreso */
+    max-width: 500px;
     height: 90px;
     margin-bottom: 8px;
     position: relative;
-    overflow: visible;              /* permite que el camión se vea completo al final */
+    overflow: visible;
 }
 
 .truck-svg {
     display: block;
-    width: 130px;                   /* tamaño reducido, ajustable a gusto */
-    max-width: 38vw;
+    width: 130px;
     position: absolute;
-    left: 0;                        /* el JavaScript actualizará este left */
-    bottom: 0;                      /* alineado a la barra */
-    transform: scaleX(-1);         /* SOLO voltea hacia la derecha */
-    transition: left 0.1s linear;
+    left: 0;
+    bottom: 0;
+    transform: scaleX(-1);
+    will-change: left;
 }
 
 .speed-line {
@@ -80,7 +79,7 @@ body {
 
 .progress-bar-bg {
     width: 100%;
-    max-width: 500px;               /* mismo ancho que el contenedor */
+    max-width: 500px;
     height: 10px;
     background: rgba(255,255,255,0.2);
     border-radius: 20px;
