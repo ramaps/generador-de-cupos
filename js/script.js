@@ -262,16 +262,12 @@ document.addEventListener('keydown', function(e) {
 
 /* ==================== GENERACIÓN DE PDF ==================== */
 async function descargar() {
-    // 👇 Verificación más confiable usando el objeto window
     const html2canvas = window.html2canvas;
     const jspdfLib = window.jspdf;
     const jsPDF = jspdfLib ? jspdfLib.jsPDF : null;
 
     if (!html2canvas || !jsPDF) {
-        alert('Error: Librerías no cargadas. Recargue la página.\n\n' +
-              'Verificá que las siguientes líneas estén en tu HTML:\n' +
-              '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>\n' +
-              '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"><\/script>');
+        alert('Error: Librerías no cargadas...');
         return;
     }
 
@@ -301,32 +297,39 @@ async function descargar() {
     await new Promise(r => setTimeout(r, 300));
 
     try {
+        // 👉 Reducir la escala de 2 a 1.5 (o 1.2 si aún no entra)
         const canvas = await html2canvas(clon, {
-            scale: 2,
+            scale: 1.5,          // antes 2, ahora más comprimido
             useCORS: true,
             backgroundColor: '#f0f2f5',
             logging: false
         });
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.97);
-        const imgWidth = 210; // A4 mm
-        const pageHeight = 297;
-        const imgHeight = canvas.height * imgWidth / canvas.width;
-
+        const imgData = canvas.toDataURL('image/jpeg', 0.92); // calidad JPEG ajustable
         const pdf = new jsPDF('p', 'mm', 'a4');
-        pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
 
-        let heightLeft = imgHeight - pageHeight;
-        while (heightLeft > 0) {
-            pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, -(imgHeight - heightLeft), imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+        const pageWidth = pdf.internal.pageSize.getWidth();  // 210mm
+        const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+        const margin = 5; // márgenes pequeños
+
+        const imgWidth = pageWidth - margin * 2;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        // Si la imagen es más alta que la página, forzamos a que ocupe toda la altura disponible
+        let finalHeight = imgHeight;
+        if (imgHeight > pageHeight - margin * 2) {
+            finalHeight = pageHeight - margin * 2;
+            // Recalcular el ancho para mantener la proporción
+            // (pero preferimos mantener el ancho completo y dejar que se escale)
         }
 
+        pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, finalHeight);
+
+        // 👉 Eliminamos el bucle while, solo una página
         pdf.save('Cupo_AgroquimicosNorte.pdf');
     } catch (error) {
-        console.error('Error al generar PDF:', error);
-        alert('Ocurrió un error al generar el PDF. Revisá la consola.');
+        console.error(error);
+        alert('Error al generar PDF.');
     } finally {
         document.body.removeChild(clon);
         if (boton) boton.style.display = '';
