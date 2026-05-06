@@ -44,21 +44,33 @@ let dbAll = [...destinatariosDB, ...intervinientesDB];
     const app = document.getElementById('app-container');
     const truck = document.querySelector('.truck-svg');
 
+    if (!truck) {
+        console.warn('No se encontró el camión (.truck-svg)');
+        return;
+    }
+
     let progress = 0;
     const interval = 20;
-    const step = 100 / (2500 / interval);
+    const duration = 2500; // 2.5 segundos
+    const step = 100 / (duration / interval);
 
     function updateTruck(pct) {
         const container = truck.parentElement;
+        // Asegurar que el contenedor tenga ancho definido
+        if (container.offsetWidth === 0) return;
         const maxLeft = container.offsetWidth - truck.offsetWidth;
         truck.style.left = (pct / 100) * maxLeft + 'px';
     }
+
+    // Establecer posición inicial explícita
+    truck.style.left = '0px';
 
     const timer = setInterval(() => {
         progress = Math.min(progress + step, 100);
         progressFill.style.width = progress + '%';
         porcentajeSpan.textContent = Math.floor(progress) + '%';
         updateTruck(progress);
+
         if (progress >= 100) {
             clearInterval(timer);
             overlay.style.opacity = '0';
