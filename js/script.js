@@ -344,7 +344,7 @@ async function descargar() {
         pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, finalHeight);
 
         // Sin bucle: solo una página
-        pdf.save('Cupo_AgroquimicosNorte.pdf');
+        pdf.save('Cupo_AgroquimicosDelNorte.pdf');
     } catch (error) {
         console.error(error);
         alert('Error al generar PDF.');
