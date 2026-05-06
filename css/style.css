@@ -50,10 +50,11 @@ body {
 
 .truck-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 400px; /* Debe coincidir con el ancho de la barra */
     height: 90px;
     margin-bottom: 8px;
     position: relative;
+    /* Eliminamos overflow: hidden para que el camión pueda asomar al inicio */
 }
 
 .truck-svg {
@@ -61,8 +62,10 @@ body {
     width: 130px;
     max-width: 38vw;
     position: absolute;
-    left: 0;
+    /* El camión se mueve basado en el borde derecho (la trompa) */
+     left: 0;
     transform: scaleX(-1);
+    transform: translateX(-100%); /* Lo posiciona justo detrás del punto de carga */
     transition: left 0.1s linear;
 }
 
@@ -122,7 +125,7 @@ body {
 }
 
 #pdf-content {
-    padding-bottom: 20px;
+    padding-bottom: 20px; /* Reducido, el espacio ahora lo da el footer */
     background-color: var(--gris-app);
 }
 
@@ -174,13 +177,9 @@ body {
 }
 
 .cliente-card .autocomplete-wrapper {
-    flex: 1 1 100%;               /* 👈 Ocupa todo el espacio disponible */
+    flex: 1;
     position: relative;
-    z-index: 1;
-}
-
-.cliente-card .autocomplete-wrapper input {
-    width: 100%;                  /* 👈 El input se expande al máximo */
+    z-index: 1; 
 }
 
 /* ===== SECTION CARD ===== */
@@ -287,13 +286,6 @@ select:focus {
 
 .alfa-cupos {
     grid-column: 2 / 4;
-    /* 👇 NUEVO: grid para columnas de cupos */
-    display: grid;
-    grid-template-rows: repeat(3, auto);   /* hasta 3 cupos por columna */
-    grid-auto-flow: column;                /* llena la 1ra columna y luego pasa a la 2da */
-    grid-template-columns: 1fr 1fr;        /* dos columnas (se crearán más si es necesario) */
-    gap: 6px 16px;                         /* espacio vertical y horizontal entre cupos */
-    align-items: start;
 }
 
 /* ===== FILAS DE INTERVINIENTES ===== */
@@ -379,28 +371,28 @@ select:focus {
     font-weight: 700;
 }
 
-/* ===== CUPOS DINÁMICOS (REORGANIZADOS) ===== */
+/* ===== CUPOS DINÁMICOS ALINEADOS CON CUIT ===== */
 .cupo-row {
     display: flex;
     align-items: center;
-    gap: 5px;
-    margin-bottom: 0;                /* el gap del grid controla la separación */
+    /* Empuja todo hacia la derecha para alinear con la columna de CUITs */
+    justify-content: flex-end; 
+    gap: 10px;
+    margin-bottom: 8px;
     width: 100%;
 }
 
-.cupo-row .input-box {
-    flex: 1;                         /* ocupa el espacio disponible */
-    min-width: 0;
-}
-
-.cupo-row .input-box label {
-    font-size: 10px;                 /* etiqueta más compacta */
-    white-space: nowrap;
+.cupo-row .input-box { 
+    /* Quitamos el flex: 1 para que no ocupe todo el ancho */
+    flex: 0 0 auto; 
+    /* Usamos el ancho estándar de tus inputs de CUIT */
+    width: 120px; 
 }
 
 .cupo-row .input-box input {
     width: 100%;
-    text-align: left;                /* alineado a la izquierda como los demás */
+    /* Centramos el texto para que coincida con la estética de los CUITs */
+    text-align: center; 
 }
 
 .btn-remove-cupo {
@@ -427,6 +419,7 @@ select:focus {
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
+    /* Alineamos el botón "+ Agregar Cupo" también a la derecha si prefieres */
     display: block;
     margin-left: auto; 
     letter-spacing: 0.5px;
@@ -462,6 +455,7 @@ select:focus {
 /* ===== FOOTER ===== */
 .doc-footer {
     text-align: center;
+    /* Se agregó 80px de padding inferior. Esto permite hacer scroll hasta abajo y que el footer quede arriba del botón flotante */
     padding: 8px 0 80px 0; 
     font-size: 12px;
     color: #555;
@@ -505,6 +499,7 @@ select:focus {
     flex: 1;
 }
 
+/* 👇 Clase opcional para campos que deban tener el mismo ancho que Dirección (50%) */
 .input-mitad {
     max-width: calc(50% - 10px);
     flex: 0 0 auto;
