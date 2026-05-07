@@ -1,11 +1,14 @@
 /* ==================== DATOS EMBEBIDOS (sin fetch) ==================== */
 const JSON_DATA = {
-  "destinatarios": [
+  destinatarios: [
+    { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "RUTA NACIONAL 98 KM 229", "localidad": "BANDERA", "ruca": "403629", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "EVA PERON Y RUTA 11", "localidad": "PTO GRAL SAN MARTIN", "ruca": "23820", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "IRIGOYEN Y BAJ QUEBRACHO", "localidad": "PTO GRAL SAN MARTIN", "ruca": "25594", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "AV ROMULO MONTAGNI Y C. DEL PARANA", "localidad": "ALVEAR", "ruca": "22976", "provincia": "SANTA FE" },
+    { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "RUTA 21 KM 4", "localidad": "BANDERA", "ruca": "20973", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "ROCA Y CUBA", "localidad": "PTO GRAL SAN MARTIN", "ruca": "512428", "provincia": "SANTA FE" },
     { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "AVDA BRIGADIER LOPEZ S/N", "localidad": "TIMBUES", "ruca": "408254", "provincia": "SANTA FE" },
+    { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "RUTA NACIONAL 98 KM 212", "localidad": "GUARDIA ESCOLTA", "ruca": 400543 "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "LDC ARGENTINA SA", "cuit": "30526712729", "direccion": "RUTA 21 KM 278", "localidad": "GRAL LAGOS", "ruca": "21030", "provincia": "SANTA FE" },
     { "nombre": "LDC ARGENTINA SA", "cuit": "30526712729", "direccion": "Brigadier E. López 9508", "localidad": "TIMBUES JOSE MARIA", "ruca": "23981", "provincia": "SANTA FE" },
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "BINELLI 398", "localidad": "SAN LORENZO", "ruca": "408411", "provincia": "SANTA FE" },
@@ -17,8 +20,10 @@ const JSON_DATA = {
     { "nombre": "OLEAGINOSA MORENO", "cuit": "33502232229", "direccion": "", "localidad": "", "ruca": "", "provincia": "" },
     { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "J.J.Castelli esquina B. Estanislao Lopez", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
+    { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "CAMINO PUBLICO (S/N)", "localidad": "TIMBUES", "ruca": "22819", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "AV PERON 1100", "localidad": "CERES", "ruca": "22819", "provincia": "SANTA FE" }
 ],
+  
   "intervinientes": [
     { "nombre": "AGROQUIMICOS DEL NORTE SA", "cuit": "30708362235" },
     { "nombre": "AGROCORREDORA CEREALES SA", "cuit": "30708599014" },
