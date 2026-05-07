@@ -15,7 +15,7 @@ const JSON_DATA = {
     { "nombre": "RENOVA", "cuit": "30709590894", "direccion": "AV BRIGADIER LOPEZ 10500", "localidad": "TIMBUES", "ruca": "518477", "provincia": "SANTA FE" },
     { "nombre": "VICENTIN SA", "cuit": "30500959629", "direccion": "URIBURU 3364", "localidad": "ROSARIO", "ruca": "22387", "provincia": "SANTA FE" },
     { "nombre": "VICENTIN SA", "cuit": "30500959629", "direccion": "CALLE 11 Y SCAPIGLIATTI", "localidad": "SAN LORENZO", "ruca": "25567", "provincia": "SANTA FE" },
-    { "nombre": "MOLINOS AGRO S.A.", "cuit": "33506737449", "direccion": "RUTA NAC 98 KM 224,5", "localidad": "BANDERA", "ruca": "", "provincia": "SANTIAGO DEL ESTERO" },
+    { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "RUTA NAC 98 KM 224,5", "localidad": "BANDERA", "ruca": "", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "MOLINOS CABANELLAS Y CIA SACI", "cuit": "30500813896", "direccion": "3 DE FEBRERO 576", "localidad": "MACIEL", "ruca": "", "provincia": "SANTA FE" },
     { "nombre": "OLEAGINOSA MORENO", "cuit": "33502232229", "direccion": "", "localidad": "", "ruca": "", "provincia": "" },
     { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
