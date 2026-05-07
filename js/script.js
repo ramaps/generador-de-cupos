@@ -16,7 +16,7 @@ const JSON_DATA = {
     { "nombre": "MOLINOS CABANELLAS Y CIA SACI", "cuit": "30500813896", "direccion": "3 DE FEBRERO 576", "localidad": "MACIEL", "ruca": "", "provincia": "SANTA FE" },
     { "nombre": "OLEAGINOSA MORENO", "cuit": "33502232229", "direccion": "", "localidad": "", "ruca": "", "provincia": "" },
     { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
-    { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "CAMINO PUBLICO", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
+    { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "J.J.Castelli esquina B. Estanislao Lopez", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "AV PERON 1100", "localidad": "CERES", "ruca": "22819", "provincia": "SANTA FE" }
 ],
   "intervinientes": [
