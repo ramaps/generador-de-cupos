@@ -8,7 +8,7 @@ const JSON_DATA = {
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "RUTA 21 KM 4", "localidad": "BANDERA", "ruca": "20973", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "ROCA Y CUBA", "localidad": "PTO GRAL SAN MARTIN", "ruca": "512428", "provincia": "SANTA FE" },
     { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "AVDA BRIGADIER LOPEZ S/N", "localidad": "TIMBUES", "ruca": "408254", "provincia": "SANTA FE" },
-    { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "RUTA NACIONAL 98 KM 212", "localidad": "GUARDIA ESCOLTA", "ruca": 400543 "provincia": "SANTIAGO DEL ESTERO" },
+    { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "RUTA NACIONAL 98 KM 212", "localidad": "GUARDIA ESCOLTA", "ruca": "400543", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "LDC ARGENTINA SA", "cuit": "30526712729", "direccion": "RUTA 21 KM 278", "localidad": "GRAL LAGOS", "ruca": "21030", "provincia": "SANTA FE" },
     { "nombre": "LDC ARGENTINA SA", "cuit": "30526712729", "direccion": "Brigadier E. López 9508", "localidad": "TIMBUES JOSE MARIA", "ruca": "23981", "provincia": "SANTA FE" },
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "BINELLI 398", "localidad": "SAN LORENZO", "ruca": "408411", "provincia": "SANTA FE" },
