@@ -3,7 +3,7 @@
     --verde-oscuro: #1b4332;
     --azul-seccion: #1a3a5a;
     --gris-app: #f0f2f5;
-    --blanco: #ffffff;
+    --blanco: #F5F5F5;
     --gris-borde: #e0e0e0;
     --gris-label: #666;
     --gris-linea: #ebebeb;
@@ -48,28 +48,35 @@ body {
     align-items: center;
 }
 
-.truck-container {
+/* ===== NUEVO: CONTENEDOR CAMIÓN + BARRA ===== */
+.loader-bar-wrapper {
+    position: relative;
     width: 100%;
     max-width: 500px;
-    height: 90px;
     margin-bottom: 8px;
-    position: relative;
-    overflow: visible;
 }
 
-.truck-svg {
-    display: block;
-    width: 130px;
+/* Contenedor del camión posicionado sobre la barra */
+.truck-on-bar {
     position: absolute;
-    left: 0;
-    bottom: 0;
-    transform: scaleX(-1);
-    will-change: left;
+    top: -55px;          /* altura justo encima de la barra */
+    left: 0%;            /* el JS lo mueve según % de carga */
+    width: 130px;        /* ancho del camión */
+    height: 55px;        /* alto suficiente para el SVG */
+    z-index: 10;
+    transform: translateX(-100%); 
 }
 
-.speed-line {
-    animation: dash 0.5s ease-in-out infinite;
+/* SVG del camión dentro de truck-on-bar */
+.truck-on-bar .truck-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: static;    /* ya no necesita posición absoluta */
+    transform: scaleX(-1); 
 }
+
+.speed-line { animation: dash 0.5s ease-in-out infinite; }
 
 @keyframes dash {
     0%   { transform: translateX(0); opacity: 1; }
@@ -101,11 +108,6 @@ body {
     letter-spacing: 1px;
 }
 
-#porcentaje {
-    display: inline-block;
-    min-width: 40px;
-    text-align: right;
-}
 /* ===== APP CONTAINER ===== */
 .app-container {
     width: 100%;
@@ -118,76 +120,34 @@ body {
 }
 
 #pdf-content {
-    padding-bottom: 20px; /* Reducido, el espacio ahora lo da el footer */
+    padding-bottom: 20px;
     background-color: var(--gris-app);
 }
 
 /* ===== HEADER ===== */
-.header-app {
+.header-custom {
     background-color: var(--verde-oscuro);
-    color: white;
-    padding: 18px 20px;
-    text-align: center;
-}
-
-.header-app h1 {
-    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.header-app p {
-    font-size: 11px;
-    margin-top: 4px;
-    opacity: 0.75;
-    letter-spacing: 2px;
-}
-
-/* ===== CLIENTE CARD ===== */
-.cliente-card {
-    background: var(--blanco);
-    margin: 10px 12px 0 12px;
-    border-radius: 8px;
-    border: 1px solid var(--gris-borde);
-    overflow: visible;
-}
-
-.cliente-card .section-title {
-    background-color: var(--verde-oscuro);
-    color: white;
-    font-weight: 700;
-    font-size: 13px;
-    padding: 7px 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.cliente-card .section-body {
-    padding: 10px 16px;
+    color: var(--gris-app);
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    padding: 15px 20px;
+    margin: 10px 12px 0 12px;
+    border-radius: 8px 8px 0 0;
+    gap: 20px;
 }
 
-/* Contenedor del input (div sin clase) */
-.cliente-card .section-body > div {
-    flex: 1;
-}
+.header-content { text-align: center; flex: 2; }
+.header-logo { flex: 1; text-align: center; }
+.header-logo img { max-height: 80px; width: auto; border-radius: 5px; }
 
-/* Input de cliente a ancho completo */
-.cliente-card .section-body > div input {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* ===== SECTION CARD ===== */
-.section-card {
+/* ===== SECTION CARDS (CLIENTE Y OTROS) ===== */
+.section-card, .cliente-card {
     background: var(--blanco);
     margin: 10px 12px;
     border-radius: 8px;
     border: 1px solid var(--gris-borde);
     overflow: visible;
-    z-index: 1; 
 }
 
 .section-title {
@@ -200,12 +160,9 @@ body {
     text-transform: uppercase;
 }
 
-.section-body {
-    padding: 12px 16px;
-    overflow: visible !important;
-}
+.section-body { padding: 12px 16px; }
 
-/* ===== ROW GRID ===== */
+/* ===== GRID Y LABELS ===== */
 .row-grid {
     display: flex;
     flex-wrap: wrap;
@@ -213,107 +170,175 @@ body {
     margin-bottom: 10px;
 }
 
-.input-box {
-    flex: 1;
-    min-width: 180px;
-}
+.input-box { flex: 1; min-width: 180px; }
 
-/* ===== LABELS ===== */
 .label-rol {
     font-size: 10.5px;
     color: var(--gris-label);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    display: block;
     margin-bottom: 2px;
-    line-height: 1.3;
+    display: block;
 }
 
-/* ===== INPUTS ===== */
-input {
+/* ===== INPUTS & SELECTS ===== */
+input, select {
     width: 100%;
-    box-sizing: border-box;
     border: none;
     border-bottom: 1px solid #ccc;
     padding: 5px 0;
     font-size: 11px;
     font-weight: 600;
     color: var(--texto-valor);
-    outline: none;
     background: transparent;
     text-transform: uppercase;
-}
-
-input:focus {
-    border-bottom: 2px solid var(--verde-oscuro);
-}
-
-/* ===== SELECT (LISTAS DESPLEGABLES) ===== */
-select {
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ccc;
-    padding: 5px 0;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--texto-valor);
     outline: none;
-    background: transparent;
-    text-transform: uppercase;
-    appearance: none;
-    cursor: pointer;
 }
 
-select:focus {
-    border-bottom: 2px solid var(--verde-oscuro);
-}
+input:focus, select:focus { border-bottom: 2px solid var(--verde-oscuro); }
 
-/* ===== LAYOUT ALFANUMÉRICOS ALINEADO AL CUIT ===== */
+/* ===== ALFANUMÉRICOS ===== */
 .alfanumericos-layout {
-    display: grid;
-    grid-template-columns: 2.3fr 3fr 2fr;
-    gap: 8px;
-    align-items: start;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
 }
 
 .alfa-fecha {
-    grid-column: 1;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.alfa-cupos {
-    grid-column: 2 / 4;
+/* Label "Alfanuméricos:" fijo a la derecha de la fecha */
+.alfa-label {
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--texto-valor);
+    white-space: nowrap;
+    padding-top: 3px;
 }
 
-/* ===== FILAS DE INTERVINIENTES ===== */
+/* Wrapper de columnas de cupos */
+.alfa-cupos-wrapper {
+    flex: 1;
+}
+
+/* Columnas en fila */
+#cupos-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Cada columna: hasta 3 inputs apilados */
+.cupos-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Input de código alfanumérico — limpio, sin borde lateral */
+.cupo-code-input {
+    width: 148px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 3px 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--texto-valor);
+    background: transparent;
+    text-transform: uppercase;
+    outline: none;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.cupo-code-input:focus {
+    border-bottom: 2px solid var(--verde-oscuro);
+}
+
+.cupo-code-input::placeholder {
+    color: #bbb;
+    font-weight: 400;
+    font-size: 11px;
+}
+
+/* Botón "+" inline (al pie de columna incompleta) */
+.btn-add-cupo-inline {
+    background: transparent;
+    border: 1px dashed #aaa;
+    border-radius: 10px;
+    color: var(--verde-oscuro);
+    font-size: 14px;
+    font-weight: 700;
+    width: 26px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 2px;
+    line-height: 1;
+    padding: 0;
+}
+
+.btn-add-cupo-inline:hover {
+    background: var(--verde-oscuro);
+    color: white;
+    border-color: var(--verde-oscuro);
+}
+
+.btn-remove-cupo {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 3px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.btn-remove-cupo:hover { color: #e74c3c; }
+
+/* Columna fantasma con botón "+" para nueva columna */
+.cupos-col-add {
+    justify-content: flex-start;
+    padding-top: 2px;
+}
+
+.btn-add-col {
+    background: var(--verde-oscuro);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.btn-add-col:hover { opacity: 0.85; }
+
+/* ===== INTERVINIENTES ===== */
 .interviniente-row {
     display: grid;
     grid-template-columns: 2.3fr 3fr 2fr;
     align-items: center;
-    padding: 5px 0;
-    border-bottom: none;
     gap: 8px;
     min-height: 33px;
-    overflow: visible !important;
-}
-
-.interviniente-row .label-rol {
-    margin-bottom: 0;
-    color: #555;
-    font-size: 10px;
-}
-
-.interviniente-row .input-nombre {
-    position: relative;
-    z-index: 10;
-}
-
-.interviniente-row .cuit-group {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
+    padding: 5px 0;
 }
 
 .cuit-label {
@@ -321,190 +346,232 @@ select:focus {
     color: var(--gris-label);
     font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     white-space: nowrap;
-    flex-shrink: 0;
 }
 
-.cuit-input {
-    font-size: 12px;
-    font-weight: 700;
-    text-align: center;
-    width: 115px;
-    min-width: 0;
-    border-bottom-color: #ddd;
-}
+.cuit-input { width: 115px; font-weight: 700; text-align: center; }
 
 /* ===== AUTOCOMPLETE ===== */
-.autocomplete-wrapper { position: relative; }
-
+.autocomplete-wrapper { position: relative; flex: 1; }
 .autocomplete-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
+    position: fixed;          /* JS controla top/left/width */
+    background: #9aff8d;
     border: 1px solid #ccc;
     border-top: none;
-    border-radius: 0 0 8px 8px;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 9999;
-    list-style: none;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    z-index: 999999;          /* siempre encima de todo */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border-radius: 0 0 4px 4px;
 }
 
 .autocomplete-list li {
-    padding: 7px 12px;
+    padding: 6px 10px;
     cursor: pointer;
-    font-size: 12px;
-    border-bottom: 1px solid #f0f0f0;
-    text-transform: uppercase;
+    font-size: 11px;
     color: #333;
+    border-bottom: 1px solid #eee;
+    background: #86f786;  /* ← verde claro */
 }
-
+.autocomplete-list li:last-child { border-bottom: none; }
 .autocomplete-list li:hover,
 .autocomplete-list li.active {
-    background: #eef7f0;
-    color: var(--verde-oscuro);
+    background: #88e790;
+    font-weight: 600;
+}
+
+/* ===== PDF RENDERING & TIPOGRAFÍA ===== */
+.pdf-input-value {
+    display: inline-block;
+    min-height: 18px;
+    padding: 2px 0;
+    font-size: 13px;
     font-weight: 700;
+    color: var(--texto-valor);
+    border-bottom: 1px solid #aaa;
+    text-transform: uppercase;
+    /* MANTIENE TU LETRA PERO EVITA AMONTONAMIENTO */
+    font-family: inherit !important;
+    white-space: pre !important; 
 }
 
-/* ===== CUPOS DINÁMICOS ALINEADOS CON CUIT ===== */
-.cupo-row {
-    display: flex;
-    align-items: center;
-    /* Empuja todo hacia la derecha para alinear con la columna de CUITs */
-    justify-content: flex-end; 
-    gap: 10px;
-    margin-bottom: 8px;
-    width: 100%;
-}
+/* Ajustes específicos para el clon del PDF */
+.pdf-render-mode .section-card { margin: 8px 12px !important; }
+.pdf-render-mode .cupo-row { zoom: 1; } /* En PDF evitamos el zoom para que html2canvas no se confunda */
 
-.cupo-row .input-box { 
-    /* Quitamos el flex: 1 para que no ocupe todo el ancho */
-    flex: 0 0 auto; 
-    /* Usamos el ancho estándar de tus inputs de CUIT */
-    width: 120px; 
-}
-
-.cupo-row .input-box input {
-    width: 100%;
-    /* Centramos el texto para que coincida con la estética de los CUITs */
-    text-align: center; 
-}
-
-.btn-remove-cupo {
-    background: none;
-    border: none;
-    color: #c0392b;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0 4px;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-.btn-remove-cupo:hover { color: #e74c3c; }
-
-.btn-agregar-cupo {
-    background: var(--verde-oscuro);
-    color: white;
-    border: none;
-    padding: 7px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    /* Alineamos el botón "+ Agregar Cupo" también a la derecha si prefieres */
-    display: block;
-    margin-left: auto; 
-    letter-spacing: 0.5px;
-}
-
-.btn-agregar-cupo:hover { background: #2d5a46; }
-
-/* ===== BOTÓN GENERAR PDF ===== */
+/* ===== BOTÓN FLOTANTE ===== */
 .btn-descargar {
     position: fixed;
-    bottom: 18px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--verde-oscuro);
     color: white;
-    padding: 13px 32px;
+    padding: 14px 35px;
     border: none;
     border-radius: 50px;
     font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    z-index:52000;
-    width: auto;
-    white-space: nowrap;
+    z-index: 99998;
 }
-
-.btn-descargar:hover { background: #2d5a46; }
-
-@media print { .btn-descargar { display: none; } }
 
 /* ===== FOOTER ===== */
 .doc-footer {
     text-align: center;
-    /* Se agregó 80px de padding inferior. Esto permite hacer scroll hasta abajo y que el footer quede arriba del botón flotante */
-    padding: 8px 0 80px 0; 
+    padding: 8px 0 100px 0; 
     font-size: 12px;
     color: #555;
     margin-top: 20px;
 }
 
-/* ===== PDF RENDER MODE ===== */
-.pdf-render-mode .section-card { margin: 10px 12px !important; }
-.pdf-render-mode .app-container { max-width: none !important; }
-.pdf-render-mode input { border-bottom: 1px solid #aaa !important; }
-.pdf-render-mode .row-grid { flex-wrap: nowrap !important; }
-
-.pdf-input-value {
-    display: inline-block;
-    min-height: 18px;
-    padding: 5px 0;
-    font-size: 13px;
-    font-weight: 600;
-    border-bottom: 1px solid #aaa;
-    width: 100%;
-    text-transform: uppercase;
-    color: var(--texto-valor);
+.side-panel {
+    flex: 0 0 180px;   /* o 220px si querés más espacio */
+    /* ... resto sin cambios ... */
 }
 
-.no-pdf {}
-
-/* ===== AJUSTES FINALES DE ARMONIZACIÓN ===== */
-.interviniente-row .input-nombre {
+/* Para que el posicionamiento absoluto funcione dentro del header */
+.header-custom {
     position: relative;
-    z-index: 10;
 }
 
-.interviniente-row .cuit-input {
-    width: 115px;
-    min-width: 115px;
-    text-align: center;
+.header-custom {
+    position: relative; /* ya lo tenés o agregalo */
 }
 
-.autocomplete-wrapper {
-    position: relative;
-    flex: 1;
+.btn-limpiar-header {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.85);
+    font-size: 18px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 5;
 }
 
-/* 👇 Clase opcional para campos que deban tener el mismo ancho que Dirección (50%) */
-.input-mitad {
-    max-width: calc(50% - 10px);
-    flex: 0 0 auto;
+.btn-limpiar-header:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: white;
+    color: white;
 }
 
-/* ✅ Cualquier contenedor de autocomplete activo quedará por encima */
-.autocomplete-wrapper.active-dropdown,
-.input-nombre.active-dropdown {
-    z-index: 1000;
+/* Asegurate de que la clase .no-pdf oculte el botón en el PDF si tu sistema lo requiere */
+.no-pdf {
+    /* ya deberías tener reglas para ocultar en PDF */
+}
+
+/* Botón limpiar footer (texto pequeño y sutil) */
+.btn-limpiar-footer {
+    background: transparent;
+    border: 1px solid #ccc;
+    color: #888;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 6px;
+}
+.btn-limpiar-footer:hover {
+    background: #f5f5f5;
+    color: #c0392b;
+    border-color: #c0392b;
+}
+
+/* Asegurarse de que no salgan en el PDF */
+.no-pdf {
+    /* Si ya tenías reglas para ocultar en PDF, mantenelas */
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* ── MOBILE (hasta 600px) ── */
+@media (max-width: 600px) {
+
+    body { background: var(--gris-app); }
+
+    .app-container { max-width: 100%; box-shadow: none; }
+
+    /* Header en columna */
+    .header-custom {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 12px 16px 40px 16px;
+        gap: 8px;
+    }
+    .header-content h1 { font-size: 18px; }
+    .header-content p  { font-size: 11px; }
+    .header-logo img   { max-height: 55px; }
+
+    /* Alfanuméricos en columna */
+    .alfanumericos-layout {
+        flex-direction: column;
+        gap: 8px;
+    }
+    #cupos-container { flex-wrap: wrap; gap: 8px; }
+    .cupos-col { min-width: 130px; }
+    .cupo-code-input { width: 120px; }
+
+    /* Intervinientes: una columna */
+    .interviniente-row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--gris-linea);
+    }
+    .cuit-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .cuit-input { width: 100%; }
+
+    /* Grids en columna */
+    .row-grid {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .input-box { min-width: unset; width: 100%; }
+
+    /* Botón descargar */
+    .btn-descargar {
+        width: calc(100% - 40px);
+        font-size: 13px;
+        padding: 12px 20px;
+    }
+
+    /* Ocultar paneles laterales */
+    .side-panel { display: none; }
+}
+
+/* ── TABLET (601px - 900px) ── */
+@media (min-width: 601px) and (max-width: 900px) {
+
+    .app-container { max-width: 100%; }
+
+    .header-custom { padding: 12px 16px; }
+    .header-content h1 { font-size: 20px; }
+
+    .interviniente-row {
+        grid-template-columns: 1.8fr 2fr 1.5fr;
+    }
+
+    .alfanumericos-layout { flex-wrap: wrap; }
+
+    .row-grid { gap: 12px; }
+
+    .side-panel { display: none; }
+}
+
+/* ── PC GRANDE (mayor a 900px) ── */
+@media (min-width: 901px) {
+    .app-container { max-width: 820px; }
 }

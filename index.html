@@ -10,151 +10,124 @@
 
     <div id="loading-overlay">
         <div class="loading-content">
-            <div class="truck-container">
-               <svg class="truck-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="300" height="100" preserveAspectRatio="xMidYMid meet">
-    <!-- Truck Cab -->
-    <rect x="20" y="80" width="80" height="70" rx="5" fill="#2D3748"/>
-    <rect x="25" y="85" width="50" height="40" rx="3" fill="#4A5568"/>
-    <rect x="30" y="88" width="35" height="25" rx="2" fill="#63B3ED"/>
-    <rect x="15" y="110" width="8" height="12" rx="2" fill="#F6E05E"/>
-    <rect x="10" y="140" width="95" height="8" rx="2" fill="#1A202C"/>
+            <!--
+                NUEVO: Contenedor único que une camión + barra.
+                El camión se posiciona absoluto sobre la barra y se mueve con el porcentaje.
+            -->
+            <div class="loader-bar-wrapper">
+                <!-- Camión SVG posicionado sobre la barra -->
+                <div class="truck-on-bar" id="truck-on-bar">
+                    <svg class="truck-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="130" height="80" preserveAspectRatio="xMidYMid meet">
+                        <!-- Truck Cab -->
+                        <rect x="20" y="80" width="80" height="70" rx="5" fill="#2D3748"/>
+                        <rect x="25" y="85" width="50" height="40" rx="3" fill="#4A5568"/>
+                        <rect x="30" y="88" width="35" height="25" rx="2" fill="#63B3ED"/>
+                        <rect x="15" y="110" width="8" height="12" rx="2" fill="#F6E05E"/>
+                        <rect x="10" y="140" width="95" height="8" rx="2" fill="#1A202C"/>
+                        <rect x="95" y="120" width="15" height="20" fill="#4A5568"/>
+                        <rect x="110" y="60" width="160" height="90" rx="5" fill="#E53E3E"/>
+                        <rect x="115" y="65" width="150" height="15" rx="3" fill="#C53030"/>
+                        <rect x="185" y="85" width="2" height="60" fill="#9B2C2C"/>
+                        <rect x="265" y="95" width="12" height="20" rx="2" fill="#1A202C"/>
+                        <rect x="272" y="120" width="15" height="20" fill="#4A5568"/>
+                        <rect x="287" y="60" width="160" height="90" rx="5" fill="#3182CE"/>
+                        <rect x="292" y="65" width="150" height="15" rx="3" fill="#2B6CB0"/>
+                        <rect x="362" y="85" width="2" height="60" fill="#1A4B7C"/>
+                        <rect x="442" y="95" width="12" height="20" rx="2" fill="#1A202C"/>
+                        <!-- Ruedas -->
+                        <circle cx="50" cy="155" r="18" fill="#1A202C"/><circle cx="50" cy="155" r="10" fill="#4A5568"/><circle cx="50" cy="155" r="5" fill="#718096"/>
+                        <circle cx="90" cy="155" r="18" fill="#1A202C"/><circle cx="90" cy="155" r="10" fill="#4A5568"/><circle cx="90" cy="155" r="5" fill="#718096"/>
+                        <circle cx="140" cy="155" r="18" fill="#1A202C"/><circle cx="140" cy="155" r="10" fill="#4A5568"/><circle cx="140" cy="155" r="5" fill="#718096"/>
+                        <circle cx="180" cy="155" r="18" fill="#1A202C"/><circle cx="180" cy="155" r="10" fill="#4A5568"/><circle cx="180" cy="155" r="5" fill="#718096"/>
+                        <circle cx="220" cy="155" r="18" fill="#1A202C"/><circle cx="220" cy="155" r="10" fill="#4A5568"/><circle cx="220" cy="155" r="5" fill="#718096"/>
+                        <circle cx="320" cy="155" r="18" fill="#1A202C"/><circle cx="320" cy="155" r="10" fill="#4A5568"/><circle cx="320" cy="155" r="5" fill="#718096"/>
+                        <circle cx="360" cy="155" r="18" fill="#1A202C"/><circle cx="360" cy="155" r="10" fill="#4A5568"/><circle cx="360" cy="155" r="5" fill="#718096"/>
+                        <circle cx="400" cy="155" r="18" fill="#1A202C"/><circle cx="400" cy="155" r="10" fill="#4A5568"/><circle cx="400" cy="155" r="5" fill="#718096"/>
+                        <!-- Líneas de velocidad -->
+                        <line class="speed-line" x1="450" y1="100" x2="490" y2="100" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
+                        <line class="speed-line" x1="460" y1="115" x2="500" y2="115" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
+                        <line class="speed-line" x1="455" y1="130" x2="495" y2="130" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
 
-    <rect x="95" y="120" width="15" height="20" fill="#4A5568"/>
-
-    <rect x="110" y="60" width="160" height="90" rx="5" fill="#E53E3E"/>
-    <rect x="115" y="65" width="150" height="15" rx="3" fill="#C53030"/>
-    <rect x="185" y="85" width="2" height="60" fill="#9B2C2C"/>
-    <rect x="265" y="95" width="12" height="20" rx="2" fill="#1A202C"/>
-
-    <rect x="272" y="120" width="15" height="20" fill="#4A5568"/>
-
-    <rect x="287" y="60" width="160" height="90" rx="5" fill="#3182CE"/>
-    <rect x="292" y="65" width="150" height="15" rx="3" fill="#2B6CB0"/>
-    <rect x="362" y="85" width="2" height="60" fill="#1A4B7C"/>
-    <rect x="442" y="95" width="12" height="20" rx="2" fill="#1A202C"/>
-
-    <!-- Ruedas -->
-    <circle cx="50" cy="155" r="18" fill="#1A202C"/><circle cx="50" cy="155" r="10" fill="#4A5568"/><circle cx="50" cy="155" r="5" fill="#718096"/>
-    <circle cx="90" cy="155" r="18" fill="#1A202C"/><circle cx="90" cy="155" r="10" fill="#4A5568"/><circle cx="90" cy="155" r="5" fill="#718096"/>
-    <circle cx="140" cy="155" r="18" fill="#1A202C"/><circle cx="140" cy="155" r="10" fill="#4A5568"/><circle cx="140" cy="155" r="5" fill="#718096"/>
-    <circle cx="180" cy="155" r="18" fill="#1A202C"/><circle cx="180" cy="155" r="10" fill="#4A5568"/><circle cx="180" cy="155" r="5" fill="#718096"/>
-    <circle cx="220" cy="155" r="18" fill="#1A202C"/><circle cx="220" cy="155" r="10" fill="#4A5568"/><circle cx="220" cy="155" r="5" fill="#718096"/>
-    <circle cx="320" cy="155" r="18" fill="#1A202C"/><circle cx="320" cy="155" r="10" fill="#4A5568"/><circle cx="320" cy="155" r="5" fill="#718096"/>
-    <circle cx="360" cy="155" r="18" fill="#1A202C"/><circle cx="360" cy="155" r="10" fill="#4A5568"/><circle cx="360" cy="155" r="5" fill="#718096"/>
-    <circle cx="400" cy="155" r="18" fill="#1A202C"/><circle cx="400" cy="155" r="10" fill="#4A5568"/><circle cx="400" cy="155" r="5" fill="#718096"/>
-
-    <!-- Líneas de velocidad (animadas) -->
-    <line class="speed-line" x1="450" y1="100" x2="490" y2="100" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
-    <line class="speed-line" x1="460" y1="115" x2="500" y2="115" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
-    <line class="speed-line" x1="455" y1="130" x2="495" y2="130" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round"/>
-</svg>
+                <!-- Barra de progreso -->
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
             </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progress-fill"></div>
-            </div>
+
             <div class="loading-text">
                 CARGANDO AGROQUÍMICOS DEL NORTE S.A. <span id="porcentaje">0%</span>
             </div>
         </div>
     </div>
-
     <div class="app-container" id="app-container">
+        <!-- ... todo el contenido existente ... -->
         <div id="pdf-content">
-            <div class="header-app">
-                <h1>AGROQUÍMICOS DEL NORTE S.A.</h1>
-                <p>SISTEMA DE GESTIÓN DE CARGA</p>
+            <header class="header-custom">
+                <button class="btn-limpiar-header no-pdf" onclick="limpiarPagina()" title="Limpiar formulario">🧹</button>
+                <div class="header-spacer"></div>
+                <div class="header-content">
+                    <h1>Agroquímicos del Norte S.A.</h1>
+                    <p>SISTEMA DE GESTIÓN DE CARGA</p>
+                </div>
+                <div class="header-logo">
+                    <img src="img/logo.svg" alt="Logo ADN" style="height: 80px; width: auto; display: inline-block;">
+                </div>
+            </header>
+
+            <div class="cliente-card">
+                <div class="section-title">Cliente / Titular</div>
+                <div class="section-body">
+                    <span class="label-rol" style="white-space:nowrap;margin-bottom:0;">Cliente:</span>
+                    <div><input type="text" placeholder="INGRESE NOMBRE DEL CLIENTE..."></div>
+                </div>
             </div>
 
-            <!-- CLIENTE -->
-<div class="cliente-card">
-    <div class="section-title">Cliente / Titular</div>
-    <div class="section-body">
-        <span class="label-rol" style="white-space:nowrap;margin-bottom:0;">Cliente:</span>
-        <div>
-            <input type="text" placeholder="INGRESE NOMBRE DEL CLIENTE...">
-        </div>
-    </div>
-</div>
-
-            <!-- 01 ALFANUMÉRICOS -->
             <div class="section-card">
                 <div class="section-title">01 Alfanuméricos</div>
                 <div class="section-body">
                     <div class="alfanumericos-layout">
-                        <div class="alfa-fecha">
-                            <label class="label-rol">Fecha:</label>
-                            <input type="date">
-                        </div>
-                        <div class="alfa-cupos">
+                        <div class="alfa-fecha"><label class="label-rol">Fecha:</label><input type="date"></div>
+                        <div class="alfa-label">Alfanuméricos:</div>
+                        <div class="alfa-cupos-wrapper">
                             <div id="cupos-container"></div>
-                            <button type="button" id="agregar-cupo" class="btn-agregar-cupo no-pdf">+ Agregar Cupo</button>
+                            <button type="button" id="agregar-cupo" class="btn-agregar-cupo no-pdf" style="display:none"></button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 02 INTERVINIENTES -->
             <div class="section-card">
                 <div class="section-title">02 Intervinientes</div>
-                <div class="section-body">
-                    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Productor</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Primaria</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Secundaria</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Secundaria 2</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Mercado a Término</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Corredor Vta. Primaria</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Corredor Vta. Secundaria</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Representante / Entregador</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Representante / Recibidor</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Destinatario</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row">
-                        <div class="label-rol">Destino</div>
-                        <div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input" id="input-destino"></div>
-                        <div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div>
-                    </div>
-                    <div class="interviniente-row"><div class="label-rol">Empresa Transportista</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Flete Pagador</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Chofer</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                    <div class="interviniente-row"><div class="label-rol">Intermediario de Flete</div><div class="input-nombre"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
-                </div>
+<div class="section-body">
+    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Productor</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Primaria</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Secundaria</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Remitente Comercial Vta. Secundaria 2</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Mercado a Término</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Corredor Vta. Primaria</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Corredor Vta. Secundaria</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Representante / Entregador</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Representante / Recibidor</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Destinatario</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Destino</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input" id="input-destino"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Empresa Transportista</div><div class="input-nombre"><input type="text" autocomplete="off"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Flete Pagador</div><div class="input-nombre autocomplete-wrapper"><input type="text" class="autocomplete-input"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Chofer</div><div class="input-nombre"><input type="text" autocomplete="off"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+    <div class="interviniente-row"><div class="label-rol">Intermediario de Flete</div><div class="input-nombre"><input type="text" autocomplete="off"></div><div class="cuit-group"><span class="cuit-label">CUIT Nro:</span><input type="text" class="cuit-input" maxlength="13"></div></div>
+</div>
             </div>
 
-            <!-- 03 GRANO/ESPECIE -->
             <div class="section-card">
                 <div class="section-title">03 Grano / Especie</div>
                 <div class="section-body">
                     <div class="row-grid">
-                        <div class="input-box"><label class="label-rol">Grano / Especie:</label><select>
-    <option value="">Seleccione...</option>
-    <option>Soja</option>
-    <option>Maíz</option>
-    <option>Trigo</option>
-    <option>Sorgo</option>
-    <option>Girasol</option>
-    <option>Cebada</option>
-    <option>Avena</option>
-    <option>Centeno</option>
-    <option>Colza</option>
-    <option>Arvejas</option>
-    <option>Garbanzos</option>
-</select></div>
+                        <div class="input-box"><label class="label-rol">Grano / Especie:</label><select><option value="">Seleccione...</option><option>Soja</option><option>Maíz</option><option>Trigo</option><option>Sorgo</option><option>Girasol</option><option>Cebada</option><option>Avena</option><option>Centeno</option><option>Colza</option><option>Arvejas</option><option>Garbanzos</option></select></div>
                         <div class="input-box"><label class="label-rol">Ruca:</label><input type="text" id="input-ruca"></div>
                     </div>
                     <div class="row-grid">
-                        <div class="input-box"><label class="label-rol">Cosecha:</label><select>
-    <option value="">Seleccione...</option>
-    <option>2023</option>
-    <option>2023-2024</option>
-    <option>2024</option>
-    <option>2024-2025</option>
-    <option>2025</option>
-    <option>2025-2026</option>
-    <option>2026</option>
-    <option>2026-2027</option>
-    <option>2027</option>
-    <option>2027-2028</option>
-    <option>2028</option>
-</select></div>
+                        <div class="input-box"><label class="label-rol">Cosecha:</label><select><option value="">Seleccione...</option><option>2023</option><option>2023-2024</option><option>2024</option><option>2024-2025</option><option>2025</option><option>2025-2026</option><option>2026</option><option>2026-2027</option><option>2027</option><option>2027-2028</option><option>2028</option></select></div>
                         <div class="input-box"><label class="label-rol">Contrato Nº:</label><input type="text"></div>
                     </div>
                     <div class="row-grid">
@@ -163,35 +136,26 @@
                 </div>
             </div>
 
-            <!-- 04 LUGAR DE ENTREGA -->
             <div class="section-card">
                 <div class="section-title">04 Lugar de Entrega</div>
                 <div class="section-body">
                     <div class="row-grid">
-                        <div class="input-box autocomplete-wrapper" style="position:relative;">
-                            <label class="label-rol">Destino:</label>
-                            <input type="text" id="input-destino-entrega" class="autocomplete-input">
-                        </div>
-                        <div class="input-box">
-                            <label class="label-rol">Localidad:</label>
-                            <input type="text" id="input-localidad">
-                        </div>
+                        <div class="input-box autocomplete-wrapper" style="position:relative;"><label class="label-rol">Destino:</label><input type="text" id="input-destino-entrega" class="autocomplete-input"></div>
+                        <div class="input-box"><label class="label-rol">Localidad:</label><input type="text" id="input-localidad"></div>
                     </div>
                     <div class="row-grid">
                         <div class="input-box"><label class="label-rol">Dirección:</label><input type="text" id="input-direccion"></div>
                         <div class="input-box"><label class="label-rol">Provincia:</label><input type="text" id="input-provincia"></div>
                     </div>
-                    <div class="input-box input-mitad">
-    <label class="label-rol">Chasis:</label><input type="text">
+                    <div class="row-grid">
+    <div class="input-box input-mitad"><label class="label-rol">Chasis:</label><input type="text" id="input-chasis"></div>
+    <div class="input-box input-mitad"><label class="label-rol">Acoplado:</label><input type="text" id="input-acoplado"></div>
 </div>
-<div class="input-box input-mitad">
-    <label class="label-rol">Acoplado:</label><input type="text">
-</div>
-                    </div>
                 </div>
             </div>
 
             <div class="doc-footer">
+                <button class="btn-limpiar-footer no-pdf" onclick="limpiarPagina()" title="Limpiar formulario">🧹 Limpiar</button>
                 <p>DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A.</p>
                 <p>© 2026 Todos los derechos reservados</p>
                 <p><strong>Ramiro Stefanutti</strong></p>
@@ -203,8 +167,8 @@
 
     <button class="btn-descargar" onclick="descargar()">GENERAR PDF</button>
 
-<script src="js/html2canvas.min.js"></script>
-<script src="js/jspdf.umd.min.js"></script>
-<script src="js/script.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/jspdf.umd.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
