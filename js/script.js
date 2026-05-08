@@ -581,8 +581,8 @@ async function descargar() {
         cardBorder(sY, y);
 
         // --- FOOTER ---
-        pdf.setFontSize(7.5); pdf.setTextColor(...GRIS_L);
-        pdf.text('DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A. | © 2026 Ramiro Stefanutti', PW/2, PH-5, { align: 'center' });
+        pdf.setFontSize(6.3); pdf.setTextColor(...GRIS_L);
+        pdf.text('DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A. | © 2026 Todos los derechos reservados - Ramiro Stefanutti | +54 385 7488836', PW/2, PH-5, { align: 'center' });
 
         pdf.save('Cupo_AgroquimicosDelNorte.pdf');
 
