@@ -27,6 +27,7 @@ const JSON_DATA = {
   "intervinientes": [
     { "nombre": "AGROQUIMICOS DEL NORTE SA", "cuit": "30708362235" },
     { "nombre": "AGROCORREDORA CEREALES SA", "cuit": "30708599014" },
+    { "nombre": "AMAGGI ARGENTINA S.A.", "cuit": "30711615519" }
     { "nombre": "ENTREGAS SERDEN SRL", "cuit": "30707844759" },
     { "nombre": "ARGENTRADING SA", "cuit": "30711629048" },
     { "nombre": "INTAGRO SA", "cuit": "30663290262" },
