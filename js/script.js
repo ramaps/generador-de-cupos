@@ -387,29 +387,30 @@ async function descargar() {
         const PH = pdf.internal.pageSize.getHeight();
         const MX = 10;
         const CW = PW - MX * 2;
+        const SCALE = 0.88;   // 12 % de reducción
 
         const VERDE = [27, 67, 50], BLANCO = [255, 255, 255], GRIS_B = [224, 224, 224], GRIS_L = [102, 102, 102], NEGRO = [26, 26, 26];
 
-        let y = 6;
+        let y = 6 * SCALE;
 
         function checkPage(needed) {
-            if (y + needed > PH - 15) { pdf.addPage(); y = 15; }
+            if (y + needed > PH - 15 * SCALE) { pdf.addPage(); y = 15 * SCALE; }
         }
 
         function sectionHeader(title) {
-            checkPage(12);
+            checkPage(12 * SCALE);
             pdf.setFillColor(...VERDE);
-            pdf.rect(MX, y, CW, 10, 'F');
+            pdf.rect(MX, y, CW, 10 * SCALE, 'F');
             pdf.setFont('helvetica', 'bold');
-            pdf.setFontSize(15); 
+            pdf.setFontSize(15 * SCALE);
             pdf.setTextColor(...BLANCO);
-            pdf.text(title.toUpperCase(), MX + 4, y + 7);
-            y += 10;
+            pdf.text(title.toUpperCase(), MX + 4 * SCALE, y + 7 * SCALE);
+            y += 10 * SCALE;
         }
 
         function cardBorder(startY, endY) {
             pdf.setDrawColor(...GRIS_B);
-            pdf.setLineWidth(0.3);
+            pdf.setLineWidth(0.3 * SCALE);
             pdf.rect(MX, startY, CW, endY - startY, 'S');
         }
 
@@ -429,18 +430,34 @@ async function descargar() {
         const cuposValores = (typeof cuposData !== 'undefined' ? cuposData : [])
             .map(c => c.valor).filter(v => v).slice(0, 6);
 
-        // 1. CORRECCIÓN INTERVINIENTES: Captura TODO (con y sin autocompletado)
-        const interData = Array.from(document.querySelectorAll('.interviniente-row')).map(row => ({
-            label: row.querySelector('.label-rol')?.textContent?.trim() || '',
-            // Buscamos cualquier input que no sea el CUIT
-            nombre: row.querySelector('.input-nombre input')?.value?.trim() || '',
-            cuit: row.querySelector('input.cuit-input')?.value?.trim() || ''
-        })).filter(i => i.nombre || i.cuit);
+        // Lista de roles que deben tener al menos un punto si están vacíos
+        const ROLES_PUNTO_OBLIGATORIO = [
+            'REMITENTE COMERCIAL PRODUCTOR',
+            'REMITENTE COMERCIAL VTA. PRIMARIA',
+            'REMITENTE COMERCIAL VTA. SECUNDARIA',
+            'REMITENTE COMERCIAL VTA. SECUNDARIA 2',
+            'MERCADO A TÉRMINO',
+            'CORREDOR VTA. PRIMARIA',
+            'CORREDOR VTA. SECUNDARIA',
+            'REPRESENTANTE / ENTREGADOR',
+            'REPRESENTANTE / RECIBIDOR',
+            'DESTINATARIO'
+        ];
 
-        // 2. CORRECCIÓN GRANO Y ESPECIES: Acceso directo por posición de tarjeta
+        const interData = Array.from(document.querySelectorAll('.interviniente-row')).map(row => {
+            const label = row.querySelector('.label-rol')?.textContent?.trim() || '';
+            let nombre = row.querySelector('.input-nombre input')?.value?.trim() || '';
+            const cuit = row.querySelector('input.cuit-input')?.value?.trim() || '';
+
+            if (!nombre && ROLES_PUNTO_OBLIGATORIO.includes(label.toUpperCase())) {
+                nombre = '.';
+            }
+            return { label, nombre, cuit };
+        }).filter(i => i.nombre || i.cuit);
+
+        // Grano / Especie (tercera tarjeta)
         const cards = document.querySelectorAll('.section-card');
-        const cardGrano = cards[2]; // La tercera tarjeta es "03 Grano / Especie"
-        
+        const cardGrano = cards[2];
         const grano = cardGrano?.querySelectorAll('select')[0]?.value || '';
         const cosecha = cardGrano?.querySelectorAll('select')[1]?.value || '';
         const ruca = val('#input-ruca');
@@ -454,7 +471,7 @@ async function descargar() {
         const chasis = val('#input-chasis');
         const acoplado = val('#input-acoplado');
 
-        // --- PROCESAR LOGO ---
+        // --- LOGO ---
         let logoDataUrl = null;
         const logoImg = document.querySelector('.header-logo img');
         if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
@@ -469,121 +486,114 @@ async function descargar() {
 
         // --- HEADER ---
         pdf.setFillColor(...VERDE);
-        pdf.rect(MX, y, CW, 30, 'F');
+        pdf.rect(MX, y, CW, 30 * SCALE, 'F');
         pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(22);
+        pdf.setFontSize(22 * SCALE);
         pdf.setTextColor(...BLANCO);
-        pdf.text('AGROQUÍMICOS DEL NORTE S.A.', PW / 2, y + 12, { align: 'center' });
-        pdf.setFontSize(12);
+        pdf.text('AGROQUÍMICOS DEL NORTE S.A.', PW / 2, y + 12 * SCALE, { align: 'center' });
+        pdf.setFontSize(12 * SCALE);
         pdf.setFont('helvetica', 'normal');
-        pdf.text('SISTEMA DE GESTIÓN DE CARGA', PW / 2, y + 20, { align: 'center' });
+        pdf.text('SISTEMA DE GESTIÓN DE CARGA', PW / 2, y + 20 * SCALE, { align: 'center' });
         
         if (logoDataUrl) {
-            const LH = 18, LW = LH * (logoImg.naturalWidth / logoImg.naturalHeight);
-            pdf.addImage(logoDataUrl, 'PNG', MX + CW - LW - 5, y + 3, LW, LH);
+            const LH = 18 * SCALE;
+            const LW = LH * (logoImg.naturalWidth / logoImg.naturalHeight);
+            pdf.addImage(logoDataUrl, 'PNG', MX + CW - LW - 5 * SCALE, y + 3 * SCALE, LW, LH);
         }
-        y += 36;
+        y += 36 * SCALE;
 
         let sY = y;
         sectionHeader('Cliente / Titular');
         pdf.setFont('helvetica', 'normal'); 
-        pdf.setFontSize(7); 
+        pdf.setFontSize(7 * SCALE);
         pdf.setTextColor(...GRIS_L);
-        pdf.text('CLIENTE', MX + 3, y + 5);
+        pdf.text('CLIENTE', MX + 3 * SCALE, y + 5 * SCALE);
         pdf.setFont('helvetica', 'bold'); 
-        pdf.setFontSize(11); 
+        pdf.setFontSize(11 * SCALE);
         pdf.setTextColor(...NEGRO);
-        const cliL = pdf.splitTextToSize((cliente || '—').toUpperCase(), CW - 10);
-        pdf.text(cliL, MX + 3, y + 10);
-        y += (cliL.length * 5) + 8;
-        cardBorder(sY, y); y += 5;
+        const cliL = pdf.splitTextToSize((cliente || '—').toUpperCase(), CW - 10 * SCALE);
+        pdf.text(cliL, MX + 3 * SCALE, y + 10 * SCALE);
+        y += (cliL.length * 5 * SCALE) + 8 * SCALE;
+        cardBorder(sY, y); y += 5 * SCALE;
 
         // --- 01 ALFANUMÉRICOS ---
         sY = y;
         sectionHeader('01  Alfanuméricos');
-        // Ajuste de fuente para FECHA
         pdf.setFont('helvetica', 'normal'); 
-        pdf.setFontSize(7); 
+        pdf.setFontSize(7 * SCALE);
         pdf.setTextColor(...GRIS_L);
-        pdf.text('FECHA', MX + 3, y + 6);
-        // Valor de la fecha en negrita y alineado
+        pdf.text('FECHA', MX + 3 * SCALE, y + 6 * SCALE);
         pdf.setFont('helvetica', 'bold'); 
-        pdf.setFontSize(9); 
+        pdf.setFontSize(9 * SCALE);
         pdf.setTextColor(...NEGRO);
-        pdf.text(fecha || '—', MX + 15, y + 6); // Se desplaza un poco a la derecha del label
-        const cX = MX + 45, colW = 55;
-        pdf.setFontSize(9);
+        pdf.text(fecha || '—', MX + 15 * SCALE, y + 6 * SCALE);
+        const cX = MX + 45 * SCALE, colW = 55 * SCALE;
+        pdf.setFontSize(9 * SCALE);
         cuposValores.forEach((v, i) => {
-            const col  = Math.floor(i / 3); // columna: 0 o 1
-            const fila = i % 3;             // fila: 0, 1 o 2
-            pdf.text(v.toUpperCase(), cX + col * colW, y + 6 + fila * 6);
+            const col  = Math.floor(i / 3);
+            const fila = i % 3;
+            pdf.text(v.toUpperCase(), cX + col * colW, y + 6 * SCALE + fila * 6 * SCALE);
         });
-        y += (Math.min(cuposValores.length, 3) * 6) + 6;
-        cardBorder(sY, y); y += 5;
+        y += (Math.min(cuposValores.length, 3) * 6 * SCALE) + 6 * SCALE;
+        cardBorder(sY, y); y += 5 * SCALE;
 
-        // --- 02 INTERVINIENTES (AJUSTE DE ESPACIADO PARA EVITAR QUE SE PISEN) ---
+        // --- 02 INTERVINIENTES ---
         if (interData.length > 0) {
             sY = y; sectionHeader('02  Intervinientes');
             interData.forEach(item => {
-                checkPage(12);
-                pdf.setFontSize(7); pdf.setTextColor(...GRIS_L);
+                checkPage(12 * SCALE);
+                pdf.setFontSize(7 * SCALE); pdf.setTextColor(...GRIS_L);
                 pdf.setFont('helvetica', 'normal');
-                // El label ocupa hasta 65mm
-                pdf.text(item.label.toUpperCase(), MX + 3, y + 5);
+                pdf.text(item.label.toUpperCase(), MX + 3 * SCALE, y + 5 * SCALE);
                 
-                pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9); pdf.setTextColor(...NEGRO);
-                // El nombre empieza en 72mm (no se pisa con el label)
-                const nL = pdf.splitTextToSize(item.nombre.toUpperCase(), 75);
-                pdf.text(nL, MX + 72, y + 5); 
+                pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9 * SCALE); pdf.setTextColor(...NEGRO);
+                const nL = pdf.splitTextToSize(item.nombre.toUpperCase(), 75 * SCALE);
+                pdf.text(nL, MX + 72 * SCALE, y + 5 * SCALE);
                 
-                pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7);
-                pdf.text('CUIT:', MX + 150, y + 5);
-                pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9);
-                pdf.text(item.cuit || '—', MX + 160, y + 5);
-                y += (nL.length * 4.5) + 2;
+                pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7 * SCALE);
+                pdf.text('CUIT:', MX + 150 * SCALE, y + 5 * SCALE);
+                pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9 * SCALE);
+                pdf.text(item.cuit || '—', MX + 160 * SCALE, y + 5 * SCALE);
+                y += (nL.length * 4.5 * SCALE) + 2 * SCALE;
             });
-            y += 2; cardBorder(sY, y); y += 5;
+            y += 2 * SCALE; cardBorder(sY, y); y += 5 * SCALE;
         }
 
         function drawF(label, value, width, x, curY) {
-            pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7); pdf.setTextColor(...GRIS_L);
+            pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7 * SCALE); pdf.setTextColor(...GRIS_L);
             pdf.text(label.toUpperCase(), x, curY);
-            pdf.setFont('helvetica', 'bold'); pdf.setFontSize(10); pdf.setTextColor(...NEGRO);
-            const lines = pdf.splitTextToSize((value || '—').toUpperCase(), width - 5);
-            pdf.text(lines, x, curY + 4.5);
-            return (lines.length * 4.5) + 6;
+            pdf.setFont('helvetica', 'bold'); pdf.setFontSize(10 * SCALE); pdf.setTextColor(...NEGRO);
+            const lines = pdf.splitTextToSize((value || '—').toUpperCase(), width - 5 * SCALE);
+            pdf.text(lines, x, curY + 4.5 * SCALE);
+            return (lines.length * 4.5 * SCALE) + 6 * SCALE;
         }
 
-        // --- 03 GRANO / ESPECIE (DIBUJO) ---
+        // --- 03 GRANO / ESPECIE ---
         sY = y; sectionHeader('03  Grano / Especie');
-        let hA = drawF('Grano / Especie', grano, CW/2, MX+3, y+5);
-        let hB = drawF('RUCA', ruca, CW/2, MX+CW/2+3, y+5);
+        let hA = drawF('Grano / Especie', grano, CW/2, MX+3 * SCALE, y+5 * SCALE);
+        let hB = drawF('RUCA', ruca, CW/2, MX+CW/2+3 * SCALE, y+5 * SCALE);
         y += Math.max(hA, hB);
-
-        hA = drawF('Cosecha', cosecha, CW/2, MX+3, y+2);
-        hB = drawF('Contrato Nº', contrato, CW/2, MX+CW/2+3, y+2);
+        hA = drawF('Cosecha', cosecha, CW/2, MX+3 * SCALE, y+2 * SCALE);
+        hB = drawF('Contrato Nº', contrato, CW/2, MX+CW/2+3 * SCALE, y+2 * SCALE);
         y += Math.max(hA, hB);
-
-        y += drawF('Observaciones', obs, CW, MX+3, y+2);
-        cardBorder(sY, y); y += 5;
+        y += drawF('Observaciones', obs, CW, MX+3 * SCALE, y+2 * SCALE);
+        cardBorder(sY, y); y += 5 * SCALE;
 
         // --- 04 LUGAR DE ENTREGA ---
         sY = y; sectionHeader('04  Lugar de Entrega');
-        hA = drawF('Destino', destino, CW/2, MX+3, y+5);
-        hB = drawF('Localidad', localidad, CW/2, MX+CW/2+3, y+5);
+        hA = drawF('Destino', destino, CW/2, MX+3 * SCALE, y+5 * SCALE);
+        hB = drawF('Localidad', localidad, CW/2, MX+CW/2+3 * SCALE, y+5 * SCALE);
         y += Math.max(hA, hB);
-
-        hA = drawF('Dirección', direccion, CW/2, MX+3, y+2);
-        hB = drawF('Provincia', provincia, CW/2, MX+CW/2+3, y+2);
+        hA = drawF('Dirección', direccion, CW/2, MX+3 * SCALE, y+2 * SCALE);
+        hB = drawF('Provincia', provincia, CW/2, MX+CW/2+3 * SCALE, y+2 * SCALE);
         y += Math.max(hA, hB);
-
-        y += drawF('Chasis', chasis, CW, MX+3, y+2);
-        y += drawF('Acoplado', acoplado, CW, MX+3, y+2);
+        y += drawF('Chasis', chasis, CW, MX+3 * SCALE, y+2 * SCALE);
+        y += drawF('Acoplado', acoplado, CW, MX+3 * SCALE, y+2 * SCALE);
         cardBorder(sY, y);
 
         // --- FOOTER ---
-        pdf.setFontSize(6.3); pdf.setTextColor(...GRIS_L);
-        pdf.text('DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A. | © 2026 Todos los derechos reservados - Ramiro Stefanutti | +54 385 7488836', PW/2, PH-5, { align: 'center' });
+        pdf.setFontSize(6.3 * SCALE); pdf.setTextColor(...GRIS_L);
+        pdf.text('DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A. | © 2026 Todos los derechos reservados - Ramiro Stefanutti | +54 385 7488836', PW/2, PH - 5 * SCALE, { align: 'center' });
 
         pdf.save('Cupo_AgroquimicosDelNorte.pdf');
 
@@ -593,23 +603,4 @@ async function descargar() {
     } finally {
         if (boton) boton.style.display = '';
     }
-}
-
-function limpiarPagina() {
-    const pdfContent = document.getElementById('pdf-content');
-    if (!pdfContent) return;
-
-    pdfContent.querySelectorAll('input, select').forEach(el => {
-        if (el.type === 'date') {
-            el.value = '';
-        } else if (el.tagName === 'SELECT') {
-            el.selectedIndex = 0;
-        } else {
-            el.value = '';
-        }
-    });
-
-    cuposData = [{ id: 1, valor: '' }];
-    nextId = 2;
-    renderCupos();
 }
