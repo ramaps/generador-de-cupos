@@ -22,8 +22,7 @@ const JSON_DATA = {
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "J.J.Castelli esquina B. Estanislao Lopez", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "CAMINO PUBLICO (S/N)", "localidad": "TIMBUES", "ruca": "22819", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "AV PERON 1100", "localidad": "CERES", "ruca": "22819", "provincia": "SANTA FE" }
-],
-  
+  ],
   "intervinientes": [
     { "nombre": "AGROQUIMICOS DEL NORTE SA", "cuit": "30708362235" },
     { "nombre": "AGROCORREDORA CEREALES SA", "cuit": "30708599014" },
@@ -42,46 +41,29 @@ let destinatariosDB = JSON_DATA.destinatarios;
 let intervinientesDB = JSON_DATA.intervinientes;
 let dbAll = [...destinatariosDB, ...intervinientesDB];
 
-/* ==================== PANTALLA DE CARGA (CORREGIDA) ==================== */
+/* ==================== PANTALLA DE CARGA ==================== */
 (function() {
     const progressFill = document.getElementById('progress-fill');
     const porcentajeSpan = document.getElementById('porcentaje');
     const overlay = document.getElementById('loading-overlay');
     const app = document.getElementById('app-container');
-
-    // Nuevo contenedor del camión (debe existir en el HTML actualizado)
     const truckOnBar = document.getElementById('truck-on-bar');
-    if (!truckOnBar) {
-        console.warn('No se encontró el contenedor #truck-on-bar');
-        return;
-    }
-
-    // Asegurar que el wrapper de la barra sea relativo para posicionar el camión
+    if (!truckOnBar) return;
     const barWrapper = truckOnBar.parentElement;
     if (barWrapper && getComputedStyle(barWrapper).position === 'static') {
         barWrapper.style.position = 'relative';
     }
-    // El contenedor del camión debe ser absoluto para moverlo con left
     truckOnBar.style.position = 'absolute';
-    truckOnBar.style.left = '0%';  // inicio
-
+    truckOnBar.style.left = '0%';
     let progress = 0;
     const interval = 20;
-    const duration = 2500; // 2.5 segundos
+    const duration = 2500;
     const step = 100 / (duration / interval);
-
-    function updateTruck(pct) {
-        // Limitar a 95% para que el camión no se salga del borde derecho
-        const safe = Math.min(pct, 100);
-        truckOnBar.style.left = safe + '%';
-    }
-
     const timer = setInterval(() => {
         progress = Math.min(progress + step, 100);
         progressFill.style.width = progress + '%';
         porcentajeSpan.textContent = Math.floor(progress) + '%';
-        updateTruck(progress);
-
+        truckOnBar.style.left = Math.min(progress, 100) + '%';
         if (progress >= 100) {
             clearInterval(timer);
             overlay.style.opacity = '0';
@@ -95,27 +77,23 @@ let dbAll = [...destinatariosDB, ...intervinientesDB];
 function initAllAutocompletes() {
     document.querySelectorAll('.autocomplete-input').forEach(input => {
         if (input.dataset.acInit) return;
-
         const esDestino = input.id === 'input-destino' || input.id === 'input-destino-entrega';
         let wrapper = input.closest('.autocomplete-wrapper') || input.parentNode;
-
         if (getComputedStyle(wrapper).position === 'static') {
             wrapper.style.position = 'relative';
         }
-
         setupAutocomplete(input, esDestino ? destinatariosDB : dbAll, esDestino, wrapper);
         input.dataset.acInit = '1';
     });
 }
- 
+
 function setupAutocomplete(input, dataSource, esDestino, wrapper) {
-    // PORTAL: la lista va al body para escapar de overflow/grid
     const list = document.createElement('ul');
     list.className = 'autocomplete-list';
     list.style.display = 'none';
     document.body.appendChild(list);
     let currentFocus = -1;
- 
+
     function positionList() {
         const rect = input.getBoundingClientRect();
         list.style.position = 'fixed';
@@ -124,24 +102,23 @@ function setupAutocomplete(input, dataSource, esDestino, wrapper) {
         list.style.width  = rect.width + 'px';
         list.style.zIndex = '999999';
     }
- 
+
     function hideList() {
         list.innerHTML = '';
         list.style.display = 'none';
         currentFocus = -1;
         wrapper.classList.remove('active-dropdown');
     }
- 
+
     function renderList(val) {
         list.innerHTML = '';
         currentFocus = -1;
         if (!val) { hideList(); return; }
- 
-let matches = dataSource.filter(item =>
+
+        let matches = dataSource.filter(item =>
             item.nombre.toUpperCase().startsWith(val.toUpperCase())
         );
 
-        // Para intervinientes (no destino): deduplicar por nombre
         if (!esDestino) {
             const seen = new Set();
             matches = matches.filter(item => {
@@ -152,12 +129,11 @@ let matches = dataSource.filter(item =>
         }
 
         matches = matches.sort((a, b) => a.nombre.localeCompare(b.nombre)).slice(0, 20);
- 
+
         if (matches.length === 0) { hideList(); return; }
- 
+
         matches.forEach(item => {
             const li = document.createElement('li');
- 
             if (esDestino) {
                 let extra = '';
                 if (item.localidad) {
@@ -173,23 +149,18 @@ let matches = dataSource.filter(item =>
                 li.style.color = '#333';
                 li.style.backgroundColor = '#fff';
             }
- 
             li.addEventListener('mousedown', e => {
                 e.preventDefault();
                 selectItem(item);
             });
             list.appendChild(li);
         });
- 
+
         positionList();
         list.style.display = 'block';
         wrapper.classList.add('active-dropdown');
- 
-        if (list.children.length > 0) {
-            currentFocus = -1;
-        }
     }
- 
+
     function selectItem(item) {
         let textoVisible = item.nombre;
         if (esDestino) {
@@ -200,16 +171,17 @@ let matches = dataSource.filter(item =>
             }
         }
         input.value = textoVisible;
- 
+
+        // 🔽 Rellenar CUIT sin guiones
         const row = input.closest('.interviniente-row');
         if (row) {
-          const cuitInput = row.querySelector('.cuit-input');
-          if (cuitInput && item.cuit) {
-          const digits = String(item.cuit).replace(/\D/g, '').slice(0, 11);
-          cuitInput.value = digits;
-      }
-  }
- 
+            const cuitInput = row.querySelector('.cuit-input');
+            if (cuitInput && item.cuit) {
+                const digits = String(item.cuit).replace(/\D/g, '').slice(0, 11);
+                cuitInput.value = digits;   // solo números
+            }
+        }
+
         if (esDestino) {
             document.getElementById('input-ruca').value = item.ruca || '';
             document.getElementById('input-direccion').value = item.direccion || '';
@@ -218,16 +190,16 @@ let matches = dataSource.filter(item =>
             const otro = input.id === 'input-destino' ? document.getElementById('input-destino-entrega') : document.getElementById('input-destino');
             if (otro) otro.value = input.value;
         }
- 
+
         hideList();
     }
- 
+
     input.addEventListener('input', function() {
         const val = this.value.trim();
         if (!val) { hideList(); return; }
         renderList(val);
     });
- 
+
     input.addEventListener('keydown', function(e) {
         const items = list.querySelectorAll('li');
         if (!items.length) return;
@@ -238,30 +210,25 @@ let matches = dataSource.filter(item =>
         items.forEach(i => i.classList.remove('active'));
         if (items[currentFocus]) items[currentFocus].classList.add('active');
     });
- 
+
     input.addEventListener('blur', function() {
         setTimeout(hideList, 150);
     });
- 
-    // Reposicionar al hacer scroll o resize
+
     window.addEventListener('scroll', () => { if (list.style.display !== 'none') positionList(); }, true);
     window.addEventListener('resize', () => { if (list.style.display !== 'none') positionList(); });
 }
- 
+
 initAllAutocompletes();
- 
 
 /* ==================== CUPOS DINÁMICOS ==================== */
-
 const cuposContainer = document.getElementById('cupos-container');
 const btnAgregar     = document.getElementById('agregar-cupo');
-
 let cuposData = [{ id: 1, valor: '' }];
 let nextId = 2;
 
 function renderCupos() {
     cuposContainer.innerHTML = '';
-
     const total = cuposData.length;
     const numCols = Math.ceil(total / 3);
 
@@ -272,7 +239,6 @@ function renderCupos() {
         for (let fila = 0; fila < 3; fila++) {
             const idx = col * 3 + fila;
             if (idx >= total) break;
-
             const item = cuposData[idx];
 
             const cupoWrap = document.createElement('div');
@@ -296,7 +262,7 @@ function renderCupos() {
             btnX.textContent = '×';
             btnX.dataset.id = item.id;
             btnX.addEventListener('click', function () {
-                if (cuposData.length <= 1) return; // nunca eliminar el último
+                if (cuposData.length <= 1) return;
                 cuposData = cuposData.filter(c => c.id !== parseInt(this.dataset.id));
                 renderCupos();
             });
@@ -306,11 +272,9 @@ function renderCupos() {
             colDiv.appendChild(cupoWrap);
         }
 
-        // Botón "+" al pie de la última columna si no está llena
         const esUltimaCol = col === numCols - 1;
         const colItemCount = Math.min(3, total - col * 3);
         const colLlena = colItemCount === 3;
-
         if (esUltimaCol && !colLlena && total < 9) {
             const btn = document.createElement('button');
             btn.type = 'button';
@@ -319,11 +283,9 @@ function renderCupos() {
             btn.addEventListener('click', agregarCupo);
             colDiv.appendChild(btn);
         }
-
         cuposContainer.appendChild(colDiv);
     }
 
-    // Botón "+" como nueva columna cuando la última está llena
     if (total > 0 && total % 3 === 0 && total < 9) {
         const colExtra = document.createElement('div');
         colExtra.className = 'cupos-col cupos-col-add no-pdf';
@@ -341,22 +303,18 @@ function agregarCupo() {
     if (cuposData.length < 6) {
         cuposData.push({ id: nextId++, valor: '' });
         renderCupos();
-        // Foco en el último input
         const inputs = cuposContainer.querySelectorAll('.cupo-code-input');
         if (inputs.length) inputs[inputs.length - 1].focus();
     }
 }
 
-// Ocultar el botón original (lo reemplazamos con botones inline)
 btnAgregar.style.display = 'none';
-
 renderCupos();
 
 /* ==================== FORMATO CUIT SIN GUIONES ==================== */
 document.addEventListener('input', function(e) {
     if (!e.target.classList.contains('cuit-input')) return;
     const el = e.target;
-    // Solo dígitos, máximo 11 caracteres
     let digits = el.value.replace(/\D/g, '').slice(0, 11);
     el.value = digits;
 });
@@ -368,11 +326,61 @@ document.addEventListener('keydown', function(e) {
     if (!/^\d$/.test(e.key)) e.preventDefault();
 });
 
+/* ==================== FUNCIÓN LIMPIAR PÁGINA ==================== */
+function limpiarPagina() {
+    // Cliente
+    const clienteInput = document.querySelector('.cliente-card input');
+    if (clienteInput) clienteInput.value = '';
 
+    // Fecha
+    const fechaInput = document.querySelector('.alfa-fecha input[type="date"]');
+    if (fechaInput) fechaInput.value = '';
 
+    // Cupos (vaciar, no eliminar)
+    if (typeof cuposData !== 'undefined') {
+        cuposData.forEach(c => c.valor = '');
+        renderCupos();
+    }
 
-/* ==================== GENERACIÓN DE PDF CORREGIDO ==================== */
+    // Intervinientes (nombre y CUIT)
+    document.querySelectorAll('.interviniente-row').forEach(row => {
+        const nombreInput = row.querySelector('.input-nombre input');
+        const cuitInput = row.querySelector('.cuit-input');
+        if (nombreInput) nombreInput.value = '';
+        if (cuitInput) cuitInput.value = '';
+    });
 
+    // Destino / entrega
+    const destinoInput = document.getElementById('input-destino');
+    const destinoEntregaInput = document.getElementById('input-destino-entrega');
+    const rucaInput = document.getElementById('input-ruca');
+    const direccionInput = document.getElementById('input-direccion');
+    const localidadInput = document.getElementById('input-localidad');
+    const provinciaInput = document.getElementById('input-provincia');
+    const chasisInput = document.getElementById('input-chasis');
+    const acopladoInput = document.getElementById('input-acoplado');
+
+    if (destinoInput) destinoInput.value = '';
+    if (destinoEntregaInput) destinoEntregaInput.value = '';
+    if (rucaInput) rucaInput.value = '';
+    if (direccionInput) direccionInput.value = '';
+    if (localidadInput) localidadInput.value = '';
+    if (provinciaInput) provinciaInput.value = '';
+    if (chasisInput) chasisInput.value = '';
+    if (acopladoInput) acopladoInput.value = '';
+
+    // Tercera tarjeta (Grano / Especie)
+    const cards = document.querySelectorAll('.section-card');
+    if (cards[2]) {
+        const selects = cards[2].querySelectorAll('select');
+        if (selects[0]) selects[0].selectedIndex = 0;
+        if (selects[1]) selects[1].selectedIndex = 0;
+        const inputs = cards[2].querySelectorAll('input');
+        inputs.forEach(inp => inp.value = '');
+    }
+}
+
+/* ==================== GENERACIÓN DE PDF ==================== */
 async function descargar() {
     const jspdfLib = window.jspdf;
     const jsPDF = jspdfLib ? jspdfLib.jsPDF : null;
@@ -387,10 +395,8 @@ async function descargar() {
         const PH = pdf.internal.pageSize.getHeight();
         const MX = 10;
         const CW = PW - MX * 2;
-        const SCALE = 0.88;   // 12 % de reducción
-
+        const SCALE = 0.88;
         const VERDE = [27, 67, 50], BLANCO = [255, 255, 255], GRIS_B = [224, 224, 224], GRIS_L = [102, 102, 102], NEGRO = [26, 26, 26];
-
         let y = 6 * SCALE;
 
         function checkPage(needed) {
@@ -424,13 +430,11 @@ async function descargar() {
             return el.value || '';
         }
 
-        // --- EXTRACCIÓN DE DATOS ---
         const cliente = val('.cliente-card input');
         const fecha = val('.alfa-fecha input[type="date"]');
         const cuposValores = (typeof cuposData !== 'undefined' ? cuposData : [])
             .map(c => c.valor).filter(v => v).slice(0, 6);
 
-        // Lista de roles que deben tener al menos un punto si están vacíos
         const ROLES_PUNTO_OBLIGATORIO = [
             'REMITENTE COMERCIAL PRODUCTOR',
             'REMITENTE COMERCIAL VTA. PRIMARIA',
@@ -448,14 +452,12 @@ async function descargar() {
             const label = row.querySelector('.label-rol')?.textContent?.trim() || '';
             let nombre = row.querySelector('.input-nombre input')?.value?.trim() || '';
             const cuit = row.querySelector('input.cuit-input')?.value?.trim() || '';
-
             if (!nombre && ROLES_PUNTO_OBLIGATORIO.includes(label.toUpperCase())) {
                 nombre = '.';
             }
             return { label, nombre, cuit };
         }).filter(i => i.nombre || i.cuit);
 
-        // Grano / Especie (tercera tarjeta)
         const cards = document.querySelectorAll('.section-card');
         const cardGrano = cards[2];
         const grano = cardGrano?.querySelectorAll('select')[0]?.value || '';
@@ -471,7 +473,6 @@ async function descargar() {
         const chasis = val('#input-chasis');
         const acoplado = val('#input-acoplado');
 
-        // --- LOGO ---
         let logoDataUrl = null;
         const logoImg = document.querySelector('.header-logo img');
         if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
@@ -484,7 +485,7 @@ async function descargar() {
             } catch(e) { console.warn("Logo no disponible"); }
         }
 
-        // --- HEADER ---
+        // HEADER
         pdf.setFillColor(...VERDE);
         pdf.rect(MX, y, CW, 30 * SCALE, 'F');
         pdf.setFont('helvetica', 'bold');
@@ -494,7 +495,6 @@ async function descargar() {
         pdf.setFontSize(12 * SCALE);
         pdf.setFont('helvetica', 'normal');
         pdf.text('SISTEMA DE GESTIÓN DE CARGA', PW / 2, y + 20 * SCALE, { align: 'center' });
-        
         if (logoDataUrl) {
             const LH = 18 * SCALE;
             const LW = LH * (logoImg.naturalWidth / logoImg.naturalHeight);
@@ -504,11 +504,11 @@ async function descargar() {
 
         let sY = y;
         sectionHeader('Cliente / Titular');
-        pdf.setFont('helvetica', 'normal'); 
+        pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(7 * SCALE);
         pdf.setTextColor(...GRIS_L);
         pdf.text('CLIENTE', MX + 3 * SCALE, y + 5 * SCALE);
-        pdf.setFont('helvetica', 'bold'); 
+        pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(11 * SCALE);
         pdf.setTextColor(...NEGRO);
         const cliL = pdf.splitTextToSize((cliente || '—').toUpperCase(), CW - 10 * SCALE);
@@ -516,14 +516,14 @@ async function descargar() {
         y += (cliL.length * 5 * SCALE) + 8 * SCALE;
         cardBorder(sY, y); y += 5 * SCALE;
 
-        // --- 01 ALFANUMÉRICOS ---
+        // 01 ALFANUMÉRICOS
         sY = y;
         sectionHeader('01  Alfanuméricos');
-        pdf.setFont('helvetica', 'normal'); 
+        pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(7 * SCALE);
         pdf.setTextColor(...GRIS_L);
         pdf.text('FECHA', MX + 3 * SCALE, y + 6 * SCALE);
-        pdf.setFont('helvetica', 'bold'); 
+        pdf.setFont('helvetica', 'bold');
         pdf.setFontSize(9 * SCALE);
         pdf.setTextColor(...NEGRO);
         pdf.text(fecha || '—', MX + 15 * SCALE, y + 6 * SCALE);
@@ -537,7 +537,7 @@ async function descargar() {
         y += (Math.min(cuposValores.length, 3) * 6 * SCALE) + 6 * SCALE;
         cardBorder(sY, y); y += 5 * SCALE;
 
-        // --- 02 INTERVINIENTES ---
+        // 02 INTERVINIENTES
         if (interData.length > 0) {
             sY = y; sectionHeader('02  Intervinientes');
             interData.forEach(item => {
@@ -545,11 +545,9 @@ async function descargar() {
                 pdf.setFontSize(7 * SCALE); pdf.setTextColor(...GRIS_L);
                 pdf.setFont('helvetica', 'normal');
                 pdf.text(item.label.toUpperCase(), MX + 3 * SCALE, y + 5 * SCALE);
-                
                 pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9 * SCALE); pdf.setTextColor(...NEGRO);
                 const nL = pdf.splitTextToSize(item.nombre.toUpperCase(), 75 * SCALE);
                 pdf.text(nL, MX + 72 * SCALE, y + 5 * SCALE);
-                
                 pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7 * SCALE);
                 pdf.text('CUIT:', MX + 150 * SCALE, y + 5 * SCALE);
                 pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9 * SCALE);
@@ -568,7 +566,7 @@ async function descargar() {
             return (lines.length * 4.5 * SCALE) + 6 * SCALE;
         }
 
-        // --- 03 GRANO / ESPECIE ---
+        // 03 GRANO / ESPECIE
         sY = y; sectionHeader('03  Grano / Especie');
         let hA = drawF('Grano / Especie', grano, CW/2, MX+3 * SCALE, y+5 * SCALE);
         let hB = drawF('RUCA', ruca, CW/2, MX+CW/2+3 * SCALE, y+5 * SCALE);
@@ -579,7 +577,7 @@ async function descargar() {
         y += drawF('Observaciones', obs, CW, MX+3 * SCALE, y+2 * SCALE);
         cardBorder(sY, y); y += 5 * SCALE;
 
-        // --- 04 LUGAR DE ENTREGA ---
+        // 04 LUGAR DE ENTREGA
         sY = y; sectionHeader('04  Lugar de Entrega');
         hA = drawF('Destino', destino, CW/2, MX+3 * SCALE, y+5 * SCALE);
         hB = drawF('Localidad', localidad, CW/2, MX+CW/2+3 * SCALE, y+5 * SCALE);
@@ -591,12 +589,11 @@ async function descargar() {
         y += drawF('Acoplado', acoplado, CW, MX+3 * SCALE, y+2 * SCALE);
         cardBorder(sY, y);
 
-        // --- FOOTER ---
+        // FOOTER
         pdf.setFontSize(6.3 * SCALE); pdf.setTextColor(...GRIS_L);
         pdf.text('DOCUMENTO GENERADO PARA AGROQUÍMICOS DEL NORTE S.A. | © 2026 Todos los derechos reservados - Ramiro Stefanutti | +54 385 7488836', PW/2, PH - 5 * SCALE, { align: 'center' });
 
         pdf.save('Cupo_AgroquimicosDelNorte.pdf');
-
     } catch (e) {
         console.error(e);
         alert('Error: ' + e.message);
