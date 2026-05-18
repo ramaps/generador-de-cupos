@@ -368,6 +368,63 @@ document.addEventListener('keydown', function(e) {
     if (!/^\d$/.test(e.key)) e.preventDefault();
 });
 
+
+/* ==================== Funcion limpiar pagina ==================== */
+function limpiarPagina() {
+    // 1. Limpiar campo Cliente
+    const clienteInput = document.querySelector('.cliente-card input');
+    if (clienteInput) clienteInput.value = '';
+
+    // 2. Limpiar fecha
+    const fechaInput = document.querySelector('.alfa-fecha input[type="date"]');
+    if (fechaInput) fechaInput.value = '';
+
+    // 3. Limpiar cupos (los deja en blanco pero no los elimina)
+    if (typeof cuposData !== 'undefined') {
+        cuposData.forEach(c => c.valor = '');
+        renderCupos();
+    }
+
+    // 4. Limpiar todos los intervinientes (nombre y CUIT)
+    document.querySelectorAll('.interviniente-row').forEach(row => {
+        const nombreInput = row.querySelector('.input-nombre input');
+        const cuitInput = row.querySelector('.cuit-input');
+        if (nombreInput) nombreInput.value = '';
+        if (cuitInput) cuitInput.value = '';
+    });
+
+    // 5. Limpiar campos de destino/entrega
+    const destinoInput = document.getElementById('input-destino');
+    const destinoEntregaInput = document.getElementById('input-destino-entrega');
+    const rucaInput = document.getElementById('input-ruca');
+    const direccionInput = document.getElementById('input-direccion');
+    const localidadInput = document.getElementById('input-localidad');
+    const provinciaInput = document.getElementById('input-provincia');
+    const chasisInput = document.getElementById('input-chasis');
+    const acopladoInput = document.getElementById('input-acoplado');
+
+    if (destinoInput) destinoInput.value = '';
+    if (destinoEntregaInput) destinoEntregaInput.value = '';
+    if (rucaInput) rucaInput.value = '';
+    if (direccionInput) direccionInput.value = '';
+    if (localidadInput) localidadInput.value = '';
+    if (provinciaInput) provinciaInput.value = '';
+    if (chasisInput) chasisInput.value = '';
+    if (acopladoInput) acopladoInput.value = '';
+
+    // 6. Limpiar grano / especie (tercera tarjeta)
+    const cards = document.querySelectorAll('.section-card');
+    if (cards[2]) {
+        const selects = cards[2].querySelectorAll('select');
+        if (selects[0]) selects[0].selectedIndex = 0;
+        if (selects[1]) selects[1].selectedIndex = 0;
+
+        const inputs = cards[2].querySelectorAll('input');
+        inputs.forEach(inp => inp.value = '');
+    }
+}
+
+
 /* ==================== GENERACIÓN DE PDF CORREGIDO ==================== */
 
 async function descargar() {
