@@ -353,15 +353,13 @@ btnAgregar.style.display = 'none';
 
 renderCupos();
 
-/* ==================== FORMATO CUIT ==================== */
+/* ==================== FORMATO CUIT SIN GUIONES ==================== */
 document.addEventListener('input', function(e) {
     if (!e.target.classList.contains('cuit-input')) return;
     const el = e.target;
+    // Solo dígitos, máximo 11 caracteres
     let digits = el.value.replace(/\D/g, '').slice(0, 11);
-    let fmt = digits.substring(0, 2);
-    if (digits.length > 2) fmt += '-' + digits.substring(2, 10);
-    if (digits.length > 10) fmt += '-' + digits.substring(10, 11);
-    el.value = fmt;
+    el.value = digits;
 });
 
 document.addEventListener('keydown', function(e) {
