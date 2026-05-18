@@ -203,13 +203,12 @@ let matches = dataSource.filter(item =>
  
         const row = input.closest('.interviniente-row');
         if (row) {
-            const cuitInput = row.querySelector('.cuit-input');
-            if (cuitInput && item.cuit) {
-                const digits = String(item.cuit).replace(/\D/g, '');
-                let fmt = digits.substring(0,2) + (digits.length>2?'-'+digits.substring(2,10):'') + (digits.length>10?'-'+digits.substring(10,11):'');
-                cuitInput.value = fmt;
-            }
-        }
+          const cuitInput = row.querySelector('.cuit-input');
+          if (cuitInput && item.cuit) {
+          const digits = String(item.cuit).replace(/\D/g, '').slice(0, 11);
+          cuitInput.value = digits;
+      }
+  }
  
         if (esDestino) {
             document.getElementById('input-ruca').value = item.ruca || '';
