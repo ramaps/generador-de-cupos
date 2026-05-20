@@ -2,7 +2,7 @@
 const JSON_DATA = {
   destinatarios: [
     { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "RUTA NACIONAL 98 KM 229", "localidad": "BANDERA", "ruca": "403629", "provincia": "SANTIAGO DEL ESTERO" },
-    { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "EVA PERON Y RUTA 11", "localidad": "PTO GRAL SAN MARTIN", "ruca": "23820", "provincia": "SANTA FE" },
+    { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
     { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "RAMON RODRIGUEZ 520", "localidad": "PTO GRAL SAN MARTIN", "ruca": "512344", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "IRIGOYEN Y BAJ QUEBRACHO", "localidad": "PTO GRAL SAN MARTIN", "ruca": "25594", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "AV ROMULO MONTAGNI Y C. DEL PARANA", "localidad": "ALVEAR", "ruca": "22976", "provincia": "SANTA FE" },
@@ -19,7 +19,6 @@ const JSON_DATA = {
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "RUTA NAC 98 KM 224,5", "localidad": "BANDERA", "ruca": "", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "MOLINOS CABANELLAS Y CIA SACI", "cuit": "30500813896", "direccion": "3 DE FEBRERO 576", "localidad": "MACIEL", "ruca": "", "provincia": "SANTA FE" },
     { "nombre": "OLEAGINOSA MORENO", "cuit": "33502232229", "direccion": "", "localidad": "", "ruca": "", "provincia": "" },
-    { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "J.J.Castelli esquina B. Estanislao Lopez", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "CAMINO PUBLICO (S/N)", "localidad": "TIMBUES", "ruca": "22819", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "AV PERON 1100", "localidad": "CERES", "ruca": "22819", "provincia": "SANTA FE" }
