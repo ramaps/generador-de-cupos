@@ -19,6 +19,7 @@ const JSON_DATA = {
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "RUTA NAC 98 KM 224,5", "localidad": "BANDERA", "ruca": "", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "MOLINOS CABANELLAS Y CIA SACI", "cuit": "30500813896", "direccion": "3 DE FEBRERO 576", "localidad": "MACIEL", "ruca": "", "provincia": "SANTA FE" },
     { "nombre": "OLEAGINOSA MORENO", "cuit": "33502232229", "direccion": "", "localidad": "", "ruca": "", "provincia": "" },
+    { "nombre": "SERVICIOS PORTUARIOS S.A.", "cuit": "30606754538", "direccion": "BAJADA AYOLAS Y COSTAS DEL RÍO PARANA", "localidad": "ROSARIO", "ruca": "22878", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "J.J.Castelli esquina B. Estanislao Lopez", "localidad": "TIMBUES", "ruca": "523969", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "CAMINO PUBLICO (S/N)", "localidad": "TIMBUES", "ruca": "22819", "provincia": "SANTA FE" },
     { "nombre": "AGD SA", "cuit": "30502874353", "direccion": "AV PERON 1100", "localidad": "CERES", "ruca": "22819", "provincia": "SANTA FE" }
@@ -32,6 +33,7 @@ const JSON_DATA = {
     { "nombre": "INTAGRO SA", "cuit": "30663290262" },
     { "nombre": "ATANOR SCA", "cuit": "30500658912" },
     { "nombre": "ADAMA ARG SA", "cuit": "30686529289" },
+     { "nombre": "GEAR SA", "cuit": "30509529937" },
     { "nombre": "MONSANTO ARGENTINA S.R.L", "cuit": "30503508725" },
     { "nombre": "MARTINO Y CIA S A", "cuit": "30556991835" }
   ]
