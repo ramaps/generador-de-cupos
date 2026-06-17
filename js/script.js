@@ -5,6 +5,7 @@ const JSON_DATA = {
     { "nombre": "BUNGE ARGENTINA S.A", "cuit": "30700869918", "direccion": "Ruta Nacional 1V09 km 336", "localidad": "SAN JERóNIMO SUD", "ruca": "21334", "provincia": "SANTA FE", "sufijo": "SJS" },
     { "nombre": "BUNGE ARGENTINA S.A.", "cuit": "30700869918", "direccion": "RAMON RODRIGUEZ 520", "localidad": "PTO GRAL SAN MARTIN", "ruca": "512344", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "IRIGOYEN Y BAJ QUEBRACHO", "localidad": "PTO GRAL SAN MARTIN", "ruca": "25594", "provincia": "SANTA FE" },
+    { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "IRIGOYEN Y BAJ QUEBRACHO", "localidad": "PTO GRAL SAN MARTIN", "ruca": "21046", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "AV ROMULO MONTAGNI Y C. DEL PARANA", "localidad": "ALVEAR", "ruca": "22976", "provincia": "SANTA FE" },
     { "nombre": "CARGILL SACI", "cuit": "30506792165", "direccion": "RUTA 21 KM 4", "localidad": "BANDERA", "ruca": "20973", "provincia": "SANTIAGO DEL ESTERO" },
     { "nombre": "COFCO INTERNATIONAL ARGENTINA SA", "cuit": "33506737449", "direccion": "ROCA Y CUBA", "localidad": "PTO GRAL SAN MARTIN", "ruca": "512428", "provincia": "SANTA FE" },
