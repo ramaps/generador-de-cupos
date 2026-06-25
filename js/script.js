@@ -15,6 +15,7 @@ const JSON_DATA = {
     { "nombre": "LDC ARGENTINA SA", "cuit": "30526712729", "direccion": "Brigadier E. López 9508", "localidad": "TIMBUES JOSE MARIA", "ruca": "23981", "provincia": "SANTA FE" },
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "BINELLI 398", "localidad": "SAN LORENZO", "ruca": "408411", "provincia": "SANTA FE" },
     { "nombre": "RENOVA", "cuit": "30709590894", "direccion": "AV BRIGADIER LOPEZ 10500", "localidad": "TIMBUES", "ruca": "518477", "provincia": "SANTA FE" },
+    { "nombre": "VICENTIN SA", "cuit": "30500959629", "direccion": "AVDA CIRCUNVALACION 701", "localidad": "AVELLANEDA", "ruca": "21835", "provincia": "SANTA FE" },
     { "nombre": "VICENTIN SA", "cuit": "30500959629", "direccion": "URIBURU 3364", "localidad": "ROSARIO", "ruca": "22387", "provincia": "SANTA FE" },
     { "nombre": "VICENTIN SA", "cuit": "30500959629", "direccion": "CALLE 11 Y SCAPIGLIATTI", "localidad": "SAN LORENZO", "ruca": "25567", "provincia": "SANTA FE" },
     { "nombre": "MOLINOS AGRO S.A.", "cuit": "30715118773", "direccion": "RUTA NAC 98 KM 224,5", "localidad": "BANDERA", "ruca": "", "provincia": "SANTIAGO DEL ESTERO" },
@@ -35,6 +36,8 @@ const JSON_DATA = {
     { "nombre": "ATANOR SCA", "cuit": "30500658912" },
     { "nombre": "ADAMA ARG SA", "cuit": "30686529289" },
      { "nombre": "GEAR SA", "cuit": "30509529937" },
+    { "nombre": "GRASSI SA", "cuit": "30539435589" },
+    { "nombre": "COMMODITIES SA", "cuit": "30640872566" },
     { "nombre": "MONSANTO ARGENTINA S.R.L", "cuit": "30503508725" },
     { "nombre": "MARTINO Y CIA S A", "cuit": "30556991835" }
   ]
